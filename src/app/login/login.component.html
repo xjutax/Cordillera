@@ -1,0 +1,73 @@
+<div style="text-align: center;">
+    <div id="elmid">
+        <div class="ellogo" id="logo">
+    
+        </div>
+        <div *ngIf="formu" id="formulario">
+            <div>            
+                <mat-form-field >
+                    <mat-label>Usuario</mat-label>
+                    <input [(ngModel)]="usuario" matInput placeholder="Usuario">
+                  </mat-form-field>
+            </div>
+            <div>            
+                <mat-form-field >
+                    <mat-label>Password</mat-label>
+                    <input (keydown.enter)="logueo()" [(ngModel)]="contrasena"  matInput type="password" placeholder="Password">
+                  </mat-form-field>
+            </div>
+            <br>
+            <button class="botones" (click)="logueo()" >Loguear</button>
+            <br/><br>
+            <div style="color: red;font-weight: bold;">
+               {{mensaje}}
+            </div>
+        </div>
+
+        <div *ngIf="!formu" id="formulario">
+            <div>
+                Seleccione la sede:
+                <select [(ngModel)]="lasede">
+                    <option [value]="item" *ngFor="let item of sedes">{{item.Descripcion}}</option>
+                </select>
+            </div>
+            <br/>
+            <div *ngIf="turno">
+                <div style="display: flex;">
+                    <div style="width: 50%;">  
+                        Puesto: 
+                        <div style="display: flex;" *ngFor="let item of lista1">
+                            <input (change)="cambiado1($event,item)"  type="checkbox" [value]="item">{{item.Descripcion}}
+                        </div>
+                    </div>
+                    <div>
+                        Turno trabajado:
+                        <div style="display: flex;" *ngFor="let item of lista2">
+                            <input (change)="cambiado2($event,item)"  type="checkbox" [value]="item">{{item.Descripcion}}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <br/><br>
+            <button class="botones" (click)="entrar()" >Entrar</button>   
+            <br/><br>
+            <div style="color: red;font-weight: bold;">
+                {{mensaje}}
+             </div>        
+        </div>
+    </div>
+</div>
+
+
+
+<div  id="print-section">
+
+    LA IMPRESION
+    
+    </div>
+    
+    <button  
+        printTitle="MyTitle"  
+        printSectionId="print-section"  
+        ngxPrint>print</button>
