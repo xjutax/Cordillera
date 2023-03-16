@@ -1,0 +1,57 @@
+<div style="padding: 10px;">
+    <div style="margin-top: 20px;">
+        <div>
+            <b>LISTA DE TURNOS:</b>
+        </div>
+        <div style="display: flex;margin-top: 10px;">
+            <div>Ingrese fecha:</div>
+            <div><input [(ngModel)]="lafecha" (ngModelChange)="cambio($event)" type="date" name="startDate"/></div>
+            <div style="margin-left: 10px;"><button (click)="buscar()" class="botones">Buscar</button></div>
+        </div>      
+    </div>
+    <div>
+        <b>TOTAL MES:</b>
+    </div>
+    <div>
+        <div style="border: 1px solid black;" *ngFor="let item of listaturnoT">
+            <div style="display: flex;">
+                <div style="margin-left: 8px;">
+                   Persona: {{item.NombreCompleto}}
+                </div>              
+                <div style="margin-left: 8px;">
+                    Valor:{{item.total | currency}}
+                </div>               
+            </div>
+        </div>
+    </div>
+    <br>
+    <div>
+        <b>DETALLE MES:</b>
+    </div>
+    <div>
+        <div style="border: 1px solid black;" *ngFor="let item of listasalida">
+            <div style="display: flex;">
+                <div style="margin-left: 8px;">
+                   Persona: {{item.NombreCompleto}}
+                </div>
+                <div style="margin-left: 8px;">
+                   Fecha: {{item.FechaIngreso}}
+                </div>
+                <div style="margin-left: 8px;">
+                    Valor:{{item.valor | currency}}
+                </div>
+                <div style="margin-left: 8px;">
+                   Extra:{{item.valor | currency}}
+                </div>
+                <div style="margin-left: 8px;">
+                    <div *ngIf="item.MedioTurno=='0'">
+                        Turno Completo
+                    </div>
+                    <div *ngIf="item.MedioTurno !='0'">
+                       Medio Turno
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,9 +5,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
 .botones{
     border: 0px solid white;
-    background-color: #C16047;
+    background-color: #cf6b0d;
     border-radius: 5px;
-    width: 100px;
+    padding: 10px;
     color: white;
     height: 30px;
     cursor: pointer;
@@ -15,4 +15,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
 .botones:hover{
     background-color: #CB6B52;
+}
+
+.mat-tab-label {   
+    background-color: transparent;
+    color: white !important;
+    font-weight: 700;
+    
+  }
+
+  .elflex{
+    display: flex;
+  }
+
+  .mat-dialog-container {
+    background-color: #F59C42;
 }

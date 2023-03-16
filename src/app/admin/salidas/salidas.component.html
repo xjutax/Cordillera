@@ -1,0 +1,53 @@
+<div style="padding: 10px;">
+    <div>
+        <div style="margin-bottom: 10px;">
+            <b>INGRESAR SALIDA:</b>
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+               Nombre salida:
+            </div>
+            <div>
+                <input [(ngModel)]="Descripcion" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+                Valor:
+            </div>
+            <div>
+                <input [(ngModel)]="Valor" type="text" />
+            </div>
+          
+        </div>
+        <div>
+            <button (click)="crear()" class="botones">Guardar</button>
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <div>
+            <b>LISTA DE SALIDAS:</b>
+        </div>
+        <div style="display: flex;margin-top: 10px;">
+            <div>Ingrese fecha:</div>
+            <div><input [(ngModel)]="lafecha" (ngModelChange)="cambio($event)" type="date" name="startDate"/></div>
+            <div style="margin-left: 10px;"><button (click)="buscar()" class="botones">Buscar</button></div>
+        </div>      
+    </div>
+    <div>
+        <div style="border: 1px solid black;" *ngFor="let item of listasalida">
+            <div style="display: flex;">
+                <div style="width: 30%;">
+                    {{item.Descripcion}}
+                </div>
+                <div style="width: 30%;">
+                    {{item.Fecha}}
+                </div>
+                <div style="width: 30%;">
+                    {{item.Valor | currency}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

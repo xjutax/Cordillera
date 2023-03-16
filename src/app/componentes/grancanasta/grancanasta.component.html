@@ -1,0 +1,180 @@
+<div>
+    <div>   
+        <div>
+            <b>Asi va tu pedido ( ^^)_旦:</b>
+        </div>       
+    </div>
+    <div style="margin-top: 20px;overflow-y: scroll;height: 115px;margin-bottom: 10px;">
+        <div *ngFor="let item of listaprod" style="display: flex;margin: 5px;border-top: 1px solid grey;">
+            <div style="width: 60%;">
+                {{item.Nombre}}
+            </div>
+            <div style="width: 10%;">
+                x {{item.Cantidad}}
+            </div>
+            <div style="width: 10%;">
+                <button (click)="adicionar(item)" class="botones" style="width: 90%;"> + </button>
+            </div> 
+            <div style="width: 10%;">
+                <button (click)="quitar(item)" class="botones" style="width: 90%;font-weight: bold;"> - </button>
+            </div>                        
+        </div>
+    </div>
+    <div style="margin-top: 10px;">
+        <div>
+            <b>Tipo Servicio:</b>
+            <input [(ngModel)]="esmesaa" (change)="esmesaF()" type="checkbox"/> Mesa
+            <input [(ngModel)]="esdomi" (change)="esdomiF()" type="checkbox"/> Domicilio
+        </div>
+        <div style="margin-top: 10px;" *ngIf="!escliente2">
+            <div>
+                <div>
+                    <div>
+                        <b>Seleccione mesa:</b>
+                        <select [(ngModel)]="lamesa">
+                            <option *ngFor="let item of listamesas" [value]="item">{{item}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+                <div *ngIf="esFactura">
+                    <div>
+                        <b>Tipo de pago:</b>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 50%;">
+                            <div><input [(ngModel)]="esefect" (change)="esefectt()" type="checkbox"/> Efectivo =</div>
+                            <div> <input [(ngModel)]="estarje" (change)="esefectt()" type="checkbox"/> Tarjeta</div>                                               
+                        </div>   
+                        <div *ngIf="esefect">
+                            <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
+                            <div><b>Cambio:</b>{{elcambio | currency}}</div>
+                        </div>   
+                    </div>
+                                                     
+                </div>
+                <div style="width: 100%;display: flex;">
+                    <div>Con servicio?:<input [(ngModel)]="esservicio" (change)="esservi()" type="checkbox"/></div>
+                    <div>Con descuento?:<input [(ngModel)]="esdecun" (change)="esdescuF()" type="checkbox"/></div>
+                     
+                 </div>
+               <br>
+                <div style="color: #0d790d;font-weight: bold;">
+                    <div style="display: flex;color: black;">
+                        <div style="width: 50%;">
+                            SubTotal: {{subtotal | currency}}
+                        </div>
+                        <div style="width: 50%;">
+                            Servicio: {{servicio | currency}}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 5px;display: flex;">
+                        <div style="width: 50%;">
+                            Total: {{total | currency}}
+                        </div>  
+                        <div style="width: 50%;color: red;">
+                           Cuidado con el domicilio
+                        </div>  
+                    </div>                                                        
+               </div>
+              
+            </div>
+            <div style="margin-top: 8px;font-weight: bold;">
+                Observacion: <textarea matInput style="width: 90%;" [(ngModel)]="observacion" placeholder="Alguna peticion del cliente?"></textarea>
+            </div>
+            <div *ngIf="!esFactura" style="margin-top: 10px;text-align: right;width: 100%;">
+                <button (click)="enviarPedido()" class="botones">{{eltextoboton}}</button>
+            </div>  
+            
+            <div *ngIf="esFactura"  style="margin-top: 10px;text-align: right;width: 100%;">
+                <button (click)="facturarpedido()" class="botones">Facturar</button>
+            </div>       
+        </div>
+        <div *ngIf="escliente2">
+           
+            <div *ngIf="esFactura">
+                <div>
+                    <b>Tipo de pago:</b>
+                </div>
+                <div style="display: flex;">
+                    <div style="width: 50%;">
+                        <div><input [(ngModel)]="esefect" (change)="esefectt()" type="checkbox"/> Efectivo =</div>
+                        <div> <input [(ngModel)]="estarje" (change)="estarjett()" type="checkbox"/> Tarjeta</div>                                               
+                    </div>   
+                    <div *ngIf="esefect">
+                        <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
+                       <div><b>Cambio:</b>{{elcambio | currency}}</div>
+                    </div>  
+                </div>
+                                                 
+            </div>
+            <div style="width: 100%;display: flex;">
+                <div>Con servicio?:<input [(ngModel)]="esservicio" (change)="esservi()" type="checkbox"/></div>
+                <div>Con descuento?:<input [(ngModel)]="esdecun" (change)="esdescuF()" type="checkbox"/></div>
+                 
+             </div>
+           <br>
+            <div style="color: #0d790d;font-weight: bold;">
+                <div style="display: flex;color: black;">
+                    <div style="width: 50%;">
+                        SubTotal: {{subtotal | currency}}
+                    </div>
+                    <div style="width: 50%;">
+                        Servicio: {{servicio | currency}}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 5px;display: flex;">
+                    <div style="width: 50%;">
+                        Total: {{total | currency}}
+                    </div>  
+                    <div style="width: 50%;color: red;">
+                       Cuidado con el domicilio
+                    </div>  
+                </div>                                                        
+           </div>
+            <div style="margin-top: 8px;font-weight: bold;">
+                Observacion: <textarea matInput style="width: 90%;" [(ngModel)]="observacion" placeholder="Alguna peticion del cliente?"></textarea>
+            </div>
+            <div style="font-weight: bold;margin-bottom: 10px;">
+                Detalle del domicilio:
+            </div>
+            <div style="display: flex;">
+                <div style="width: 30%;">
+                    Nombre:
+                </div>
+                <div style="width: 70%;">
+                    <input [(ngModel)]="nombres" type="text" />
+                </div>
+            </div>
+            <div style="display: flex;margin-top: 5px;">
+                <div style="width: 30%;">
+                    Direccion:
+                </div>
+                <div style="width: 70%;">
+                    <input [(ngModel)]="direccion" type="text" />
+                </div>
+            </div>
+            <div style="display: flex;margin-top: 5px;">
+                <div style="width: 30%;">
+                    Telefono:
+                </div>
+                <div style="width: 70%;">
+                    <input [(ngModel)]="Celular" type="text" />
+                </div>
+            </div>
+            <div *ngIf="!esFactura" style="margin-top: 10px;text-align: right;width: 100%;">
+                <button (click)="enviarPedido()" class="botones">{{eltextoboton}}</button>
+            </div>  
+            
+            <div *ngIf="esFactura"  style="margin-top: 10px;text-align: right;width: 100%;">
+                <button (click)="facturarpedido()" class="botones">Facturar</button>
+            </div>  
+        </div>
+
+        
+    </div>
+</div>

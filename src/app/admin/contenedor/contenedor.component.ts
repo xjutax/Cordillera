@@ -8,14 +8,27 @@ import { ServiciosService } from 'src/shared/services/servicios.service';
   styleUrls: ['./contenedor.component.css']
 })
 export class ContenedorComponent implements OnInit {
-
+  public tabindex:number=0;
+  public elusuario:any;
   constructor(private elservicio:ServiciosService,private router:Router) { }
 
   ngOnInit(): void {
+    this.elusuario = this.elservicio.getsession();
   }
 
   cerrarsesion(){
-    this.elservicio.deletesession();
+    
     this.router.navigate(["/Login"])
+
+   
+    console.log(this.elusuario)
+  }
+
+  ventascli(){
+    this.elservicio.tocoventas.next(true);
+  }
+
+  pedidoscli(){
+    this.elservicio.tocoPedidos.next(true);
   }
 }

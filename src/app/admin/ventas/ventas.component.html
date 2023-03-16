@@ -1,1 +1,93 @@
-<p>ventas works!</p>
+<div>
+    <div id="headerr">
+        <div (click)="atras()" class="flechasfondo"> < </div>
+        <div (click)="abrirtipof()" class="lamitadfecha"> {{lafechaS}} </div>
+        <div (click)="adelante()" class="flechasfondo"> > </div>
+    </div>
+</div>
+<div>
+    <div style="background-color: green;width: 100%;" class="elflex lascasillas">
+        <div>
+            Total:
+        </div>
+        <div>
+            {{TotalFinal | currency}}
+        </div>
+    </div>
+    <div class="elflex">
+        <div style="background-color: rgb(22, 200, 22);" class="elflex lascasillas">
+            <div>
+                SubTotal:
+            </div>
+            <div>
+                {{SubTotalFinal | currency}}
+            </div>
+        </div>
+        <div style="background-color: red;" class="elflex lascasillas">
+            <div>
+                Salidas:
+            </div>
+            <div>
+                {{SalidasFinal | currency}}
+            </div>
+        </div>
+    </div>
+    <div class="elflex">
+        <div style="background-color: cadetblue;" class="elflex lascasillas">
+            <div>
+                Efectivo:
+            </div>
+            <div>
+                {{EfectivoFinal | currency}}
+            </div>
+        </div>
+        <div style="background-color: chocolate;" class="elflex lascasillas">
+            <div>
+                Tarjeta:
+            </div>
+            <div>
+                {{TarjetaFinal | currency}}
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align: center;">
+    <div id="chartdiv" style="width: 90%; height: 250px;margin: 10px;text-align: center;"></div>
+</div>
+<div>
+    <div style="padding-top: 5px;font-size: 17px; background-color: #cf6b0d;width: 100%;height: 30px;color: white;text-align: center;font-weight: bold;">Articulos</div>
+    <div style="overflow-y: scroll;max-height: 255px;">
+        <div style="padding: 5px;" *ngFor="let item of losarticulos">
+            <div style="display: flex;border-top: 1px solid grey;">
+                <div style="width: 50%;">
+                    {{item.NombreProducto}}
+                </div>
+                <div style="width: 50%;">
+                    {{item.Precio | currency}}
+                </div>
+            </div>
+            <div>
+                x {{item.Cantidad}}
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div style="padding-top: 5px;font-size: 17px; background-color: #cf6b0d;width: 100%;height: 30px;color: white;text-align: center;font-weight: bold;">
+        Categorias</div>
+        <div style="overflow-y: scroll;max-height: 255px;">
+        <div style="padding: 5px;" *ngFor="let item of lascategorias">
+            <div style="display: flex;border-top: 1px solid grey;">
+                <div style="width: 50%;">
+                    {{item.NombreTipo}}
+                </div>
+                <div style="width: 50%;">
+                    {{item.Precio | currency}}
+                </div>
+            </div>
+            <div>
+                x {{item.Cantidad}}
+            </div>
+        </div>
+    </div>
+</div>

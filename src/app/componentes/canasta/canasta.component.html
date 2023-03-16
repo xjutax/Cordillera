@@ -1,0 +1,15 @@
+<div style="background-color: #d57419;width: 100%; height: 50px;
+display: flex; padding: 5px;color: black;font-size: 15px;font-weight: bold;">
+    <div style="width: 50%;">
+        <div>
+            Cantidad: {{cantidad}}
+        </div>
+        <div style="color: #0d790d;">
+            Total: {{total | currency}}
+        </div>
+    </div>
+    <div style="width: 50%;text-align: center;">
+        <button (click)="vercanasta()" class="botones" style="background-color: #F59C42;font-weight: bold;font-size: 15px;margin-top: 10px;">
+            ver canasta</button>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div style="padding: 10px;">
+   
+    <div style="margin-top: 20px;overflow-y: scroll;height: 400px;margin-bottom: 10px;">
+        <div *ngFor="let item of listaparametros" style="margin: 5px;border-top: 1px solid grey;">
+            <div style="display: flex;">
+                <div style="margin-right: 10px;width: 50%;"><b>Nombre:</b> {{item.Nombre}}</div>               
+            </div>
+            <div style="margin-top: 3px;display: flex;">
+                <div style="margin-right: 10px;width: 50%;"><b>Valor 1:</b> {{item.Valor1}}</div>
+                <div style="width: 50%;"><b>Valor 2:</b>  {{item.Valor2}}</div>
+            </div>           
+            <div style="margin-top: 3px;display: flex;">
+                <div style="margin-right: 10px;width: 50%;"><b>Descripcion:</b> {{item.Descripcion}}</div>
+                <div style="display: flex;width: 50%;">
+                    <div style="width: 35%;margin-bottom: 6px;"><b>Activo:</b></div>           
+                    <input type="checkbox" [(ngModel)]="item.Activo" />            
+                </div>  
+            </div>  
+             
+            <div>
+                <button class="botones" (click)="modificar(item)">Modificar</button>
+            </div>                    
+        </div>
+    </div>    
+</div>

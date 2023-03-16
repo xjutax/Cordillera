@@ -1,0 +1,105 @@
+<div style="padding: 10px;">
+    
+    <div style="display: flex;">
+        <div>
+            <div>Fecha inicial:</div>
+            <div><input [(ngModel)]="lafecha" (ngModelChange)="cambio($event)" type="date" name="startDate"/></div>
+        </div>
+        <div style="margin-left: 10px;">
+            <div>Fecha final:</div>
+            <div><input [(ngModel)]="lafecha2" (ngModelChange)="cambio2($event)" type="date" name="startDate"/></div>
+        </div>
+        <div>
+            <div style="margin-left: 10px;"><button (click)="llenargrilla()" class="botones">Buscar</button></div>       
+        </div>
+    </div>
+    
+       
+            
+   
+
+    <div style="margin-top: 10px;">
+        <div *ngFor="let item of listapedidos" style="border: 1px solid black;padding: 6px;display: flex;">
+            <div style="width: 100%;">
+                <div style="display: flex;">
+                    <div>
+                        Pedido No:<b>{{item.Id}}</b>
+                    </div>
+                    <div style="color: #914f11;font-weight: bold;margin-left: 10px;">
+                        Total:{{item.Valor | currency}}
+                    </div>
+                   
+                   
+               </div>
+               <div style="display: flex;">
+                    <div>
+                        Fecha: {{item.Fecha}}
+                    </div>
+                   <div style="display: flex;margin-left: 10px;">                 
+                        <div>
+                            Estado: {{item.Estado}}
+                       </div>                       
+                   </div>
+                    
+               </div>
+               <div *ngIf="item.Observacion != null">
+                   <b> Observacion: </b> {{item.Observacion}}                      
+                </div>
+                <div style="display: flex;">
+                    <div style="margin-right: 10px;">
+                        Tipo Pedido:{{item.TipoPedido}}  
+                    </div>
+                    <div *ngIf="item.EsMesa">
+                         Mesa No: {{item.Mesa}}   
+                    </div>   
+                </div>
+                <div *ngIf="!item.EsMesa">
+                    
+                    <div>
+                       <b> Detalle envio:</b>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Nombre:
+                        </div>
+                        <div>
+                            {{item.Nombre}}
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Direccion:
+                        </div>
+                        <div>
+                            {{item.Direccion}}
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Telefono:
+                        </div>
+                        <div>
+                            {{item.Celular}}
+                        </div>
+                    </div>
+                </div>
+    
+                <div>
+                    <div>
+                        <b>Detalle pedido:</b>
+                    </div>
+                    <div>
+                        <div style="display: flex;" *ngFor="let item2 of item.detalle">
+                            <div style="margin-right: 10px;">
+                                {{item2.Nombre}}
+                            </div>
+                            <div>
+                                x {{item2.Cantidad}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                      
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div>
+    <div>
+        <label><b>Seleccione tipo:</b></label>        
+        <select [(ngModel)]="eltipo" (change)="seleccionartipo()">
+            <option [value]="item.IdTipo" *ngFor="let item of listatipos">{{item.NombreTipo}}</option>
+        </select>
+    </div>
+
+    <div style="margin-top: 20px;overflow-y: scroll;height: 400px;margin-bottom: 10px;">
+        <div *ngFor="let item of listaprod" style="display: flex;margin: 5px;border-top: 1px solid grey;">
+            <div style="width: 60%;">
+                {{item.Nombre}}
+            </div>
+            <div style="width: 40%;">
+                <button (click)="adicionar(item)" class="elboton"> + </button>
+            </div>                        
+        </div>
+    </div>
+    <div>
+        <app-canasta></app-canasta>
+    </div>
+</div>

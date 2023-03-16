@@ -1,0 +1,104 @@
+<div>
+    <div *ngIf="opcion==0">      
+        <div style="margin-top: 10px;">
+            {{MensajeDinamico}}
+        </div>
+        <br/>
+        <div style="text-align: center;">
+            <button (click)="aceptarG()" class="botones">Aceptar</button>
+        </div>
+    </div>
+    <div *ngIf="opcion==1">
+        Seleccione tipo grafica:
+        <br/>
+        <div style="margin-top: 10px;">
+            <label>Dia:</label>
+            <input type="radio" id="tipos" [value]="0" [(ngModel)]="tipografica" value="Dia" />
+            <label>Mes:</label>
+            <input type="radio" id="tipos" [value]="1" [(ngModel)]="tipografica" value="Mes" />
+            <label>Año:</label>
+            <input type="radio" id="tipos" [value]="2" [(ngModel)]="tipografica" value="Año" />
+        </div>
+        <br/>
+        <div style="text-align: center;">
+            <button (click)="aceptarTipoF()" class="botones">Aceptar</button>
+        </div>
+    </div>
+    <div *ngIf="opcion==2">
+        <b>EDITAR PRODUCTO:</b>
+        <br/>
+        <div style="margin-top: 10px;">
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Nombre:</b></div>
+                <input type="text" [(ngModel)]="elproducto.Nombre" />
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Cantidad:</b></div>
+                <input type="number" [(ngModel)]="elproducto.Cantidad"/>
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Precio:</b></div>
+                <input type="number" [(ngModel)]="elproducto.Precio" />
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Imagen:</b></div>
+                <input type="text" [(ngModel)]="elproducto.Imagen" />
+            </div>
+            <div>
+                <div class="form-group">                  
+                    <input type="file"
+                           id="file"
+                           (change)="handleFileInput($event)">
+                </div>
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Tipo:</b></div>
+                <select [(ngModel)]="elproducto.Tipo">
+                    <option [value]="item.IdTipo" *ngFor="let item of listatipos">{{item.NombreTipo}}</option>
+                </select>
+            </div>
+            <div>
+                <div style="width: 35%;margin-bottom: 6px;"><b>Detalle:</b></div>           
+                <textarea matInput style="width: 100%;height: 100px;" [(ngModel)]="elproducto.Detalle" placeholder=""></textarea>
+            </div>  
+            <div>
+                <div style="width: 35%;margin-bottom: 6px;"><b>Activo:</b></div>           
+                <input type="checkbox" [(ngModel)]="elproducto.Activo" />            
+            </div>                                                          
+        </div>
+        <br/>
+        <div style="text-align: center;">
+            <button (click)="ModificarProd()" class="botones">Modificar</button>
+        </div>
+    </div>
+    <div *ngIf="opcion==3">
+        <b>EDITAR Configuracion:</b>
+        <br/>
+        <div style="margin-top: 10px;">
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Nombre:</b></div>
+               {{elproducto.Nombre}}
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Valor 1:</b></div>
+                <input type="text" [(ngModel)]="elproducto.Valor1"/>
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Valor 2:</b></div>
+                <input type="text" [(ngModel)]="elproducto.Valor2" />
+            </div>
+            <div style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Descripcion:</b></div>
+                <input type="text" [(ngModel)]="elproducto.Descripcion" />
+            </div>          
+            <div>
+                <div style="width: 35%;margin-bottom: 6px;"><b>Activo:</b></div>           
+                <input type="checkbox" [(ngModel)]="elproducto.Activo" />            
+            </div>                                                          
+        </div>
+        <br/>
+        <div style="text-align: center;">
+            <button (click)="ModificarProd()" class="botones">Modificar</button>
+        </div>
+    </div>
+</div>

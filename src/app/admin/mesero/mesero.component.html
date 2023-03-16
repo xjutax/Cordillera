@@ -1,0 +1,116 @@
+<div style="padding: 10px;">
+    <div>
+        <button class="botones" style="margin-right: 20px;" (click)="crearpedido()">Crear Pedido</button>
+        <button class="botones" (click)="buscar()">Refrescar</button>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <div *ngFor="let item of listapedidos" style="border: 1px solid black;padding: 6px;display: flex;">
+            <div style="width: 70%;">
+                <div style="display: flex;">
+                    <div>
+                        Pedido No:<b>{{item.Id}}</b>
+                    </div>
+                    <div style="color: #914f11;font-weight: bold;margin-left: 10px;">
+                        Total:{{item.Valor | currency}}
+                    </div>
+                   
+                   
+               </div>
+               <div style="display: flex;">
+                    <div>
+                        Fecha: {{item.Fecha}}
+                    </div>
+                   <div style="display: flex;margin-left: 10px;">                 
+                        <div>
+                            Estado: 
+                       </div>
+                       <div *ngIf="item.Estado=='Creado'" style="color: green;font-weight: bold;">
+                         {{item.Estado}}
+                       </div>
+                       <div *ngIf="item.Estado=='Comandado'" style="color: yellow;font-weight: bold;">
+                        {{item.Estado}}
+                      </div>
+                      <div *ngIf="item.Estado=='Modificado'" style="color: rgb(193, 106, 13);font-weight: bold;">
+                        {{item.Estado}}
+                      </div>
+                   </div>
+                    
+               </div>
+               <div *ngIf="item.Observacion != null">
+                   <b> Observacion: </b> {{item.Observacion}}                      
+                </div>
+                <div style="display: flex;">
+                    <div style="margin-right: 10px;">
+                        Tipo Pedido:{{item.TipoPedido}}  
+                    </div>
+                    <div *ngIf="item.EsMesa">
+                         Mesa No: {{item.Mesa}}   
+                    </div>   
+                </div>
+                <div *ngIf="!item.EsMesa">
+                    
+                    <div>
+                       <b> Detalle envio:</b>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Nombre:
+                        </div>
+                        <div>
+                            {{item.Nombre}}
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Direccion:
+                        </div>
+                        <div>
+                            {{item.Direccion}}
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="width: 20%;">
+                            Telefono:
+                        </div>
+                        <div>
+                            {{item.Celular}}
+                        </div>
+                    </div>
+                </div>
+    
+                <div>
+                    <div>
+                        <b>Detalle pedido:</b>
+                    </div>
+                    <div>
+                        <div style="display: flex;" *ngFor="let item2 of item.detalle">
+                            <div style="margin-right: 10px;">
+                                {{item2.Nombre}}
+                            </div>
+                            <div>
+                                x {{item2.Cantidad}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 30%;">
+                <div style="margin-bottom: 10px;">
+                    <button (click)="comandar(item)"  *ngIf="item.Estado=='Modificado' || item.Estado=='Creado'" class="botones" style="width: 100px;">Comandar</button>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <button (click)="modificar(item)" *ngIf="item.Estado=='Creado' || item.Estado=='Comandado'" class="botones" style="width: 100px;">Modificar</button>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <button (click)="facturar(item)" *ngIf="item.Estado=='Creado' || item.Estado=='Comandado'" class="botones" style="width: 100px;">Facturar</button>
+                </div>
+                <div>
+                    <button (click)="Cancelar(item)"  class="botones" style="width: 100px;">Cancelar</button>
+                </div>
+                
+            </div>
+           
+        </div>
+    </div>
+</div>

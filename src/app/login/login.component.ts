@@ -61,21 +61,29 @@ export class LoginComponent implements OnInit {
         this.mensaje ="Seleccione los parametros de turno."      
       }else{     
         let usuario = this.losservicios.getsession();
+        debugger
+        let usunu ={
+          Activo: usuario.Activo,
+          Id: usuario.Id,
+          NombreUsuario: usuario.NombreUsuario,
+          Tipo: usuario.Tipo,
+          Clase: this.listapuesto[0].Descripcion,
+          NombreCompleto:usuario.NombreCompleto
+        }
+        this.losservicios.savesession(usunu)
         let elturnoo = this.listaturno[this.listaturno.length-1];
         let elpuestoo = this.listapuesto[this.listapuesto.length-1];
         let lafecha1 = new Date();
        let lafecha = lafecha1.getFullYear()+"-"+ (lafecha1.getMonth()+1)+"-"+lafecha1.getDate()+" "+lafecha1.getHours()+":"+lafecha1.getMinutes()+":"+lafecha1.getSeconds();
-       this.losservicios.saveTurno(usuario.Id,true,lafecha,( (elturnoo.valor==1)?true:false),elpuestoo.valor).subscribe(yy =>{                    
-          console.log(yy)
+       this.losservicios.saveTurno(usuario.Id,true,lafecha,( (elturnoo.valor==1)?true:false),elpuestoo.valor).subscribe(yy =>{                            
           if(yy != null && yy.message1 =="Ok"){
+
             this.router.navigate(['/Admin']);
           }else{
             this.mensaje ="Error al guardar turno."    
           }
-        })
-        
+        })        
       }
-
     }else{
       if(this.lasede == null){
         this.mensaje ="Seleccione la sede."      
@@ -92,15 +100,14 @@ export class LoginComponent implements OnInit {
     }else{
       
       this.listapuesto = this.listapuesto.filter(x => x.valor != entrada.valor)
-    }
-    console.log(this.listapuesto);
+    }   
   }
+
   cambiado2(evento:any,entrada:any){
     if(evento.currentTarget.checked){
       this.listaturno.push(entrada);
     }else{
       this.listaturno = this.listaturno.filter(x => x.valor != entrada.valor)
-    }
-    console.log(this.listaturno);
+    }   
   }
 }

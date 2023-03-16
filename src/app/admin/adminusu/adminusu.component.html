@@ -1,0 +1,73 @@
+<div style="padding: 10px;">
+    <div>
+        <div style="margin-bottom: 10px;">
+            <b>INGRESAR Usuario:</b>
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+               UserName:
+            </div>
+            <div>
+                <input [(ngModel)]="UserName" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+                Password:
+            </div>
+            <div>
+                <input [(ngModel)]="Password" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+                Email:
+            </div>
+            <div>
+                <input [(ngModel)]="Email" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
+                Tipo:
+            </div>
+            <div>
+                <select [(ngModel)]="eltipo">
+                    <option [value]="1">Administrador</option>
+                    <option [value]="2">Empleado</option>
+                  
+                </select>
+            </div>
+          
+        </div>        
+        <div>
+            <button (click)="crear()" class="botones">Guardar</button>
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <div>
+            <b>LISTA DE Usuarios:</b>
+        </div>        
+    </div>
+    <div>
+        <div style="border: 1px solid black;" *ngFor="let item of lista">
+            <div style="display: flex;">
+                <div style="width: 25%;">
+                    {{item.NombreUsuario}}
+                </div>
+                <div style="width: 25%;">
+                    {{item.Email}}
+                </div>
+                <div style="width: 25%;">
+                    {{item.PasswordUsuario}}
+                </div>
+                <div style="width: 25%;">
+                    {{item.NombreCompleto}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
