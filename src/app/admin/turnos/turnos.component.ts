@@ -24,7 +24,7 @@ export class TurnosComponent implements OnInit {
   }
 
   llenargrilla(){
-    this.lafecha = new Date(this.lafecha)
+    this.lafecha = new Date(this.lafecha+'T00:00:00')
     this.lafecha = new Date(this.lafecha.getFullYear(),(this.lafecha.getMonth()),this.lafecha.getDate(),0,0,0);
     this.lafecha2=new Date(this.lafecha.getFullYear(),(this.lafecha.getMonth()),this.lafecha.getDate(),0,0,0);
     this.lafecha2.setDate(this.lafecha.getDate()+1)

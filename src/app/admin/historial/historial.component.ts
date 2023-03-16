@@ -32,8 +32,8 @@ export class HistorialComponent implements OnInit {
   }
 
   llenargrilla(){
-    this.lafechaE = new Date(this.lafecha);
-    this.lafecha2E = new Date(this.lafecha2);
+    this.lafechaE = new Date(this.lafecha+'T00:00:00');
+    this.lafecha2E = new Date(this.lafecha2+'T00:00:00');
     this.lafecha = new Date(this.lafechaE.getFullYear(),(this.lafechaE.getMonth()),this.lafechaE.getDate(),0,0,0);
     this.lafecha2=new Date(this.lafecha2E.getFullYear(),(this.lafecha2E.getMonth()),this.lafecha2E.getDate(),0,0,0);
    

@@ -13,6 +13,9 @@ export class AdminPedidosComponent implements OnInit {
   
   public listapedidos : Array<any>= new Array<any>();
   public elusu:any;
+  public banderabuscar:boolean=false;
+  public boton:string="Buscar";
+  public elinterval:any;
   constructor(public dialog: MatDialog,private servicios:ServiciosService) { }
 
   ngOnInit(): void {
@@ -51,9 +54,19 @@ export class AdminPedidosComponent implements OnInit {
   }
 
   buscar(){
-    this.cargarPedidos();
+    this.banderabuscar = !this.banderabuscar;
+    if(this.banderabuscar){
+      this.boton ="Buscando..."
+      this.elinterval = setInterval(() => { this.cargarPedidos(); }, 3000);
+    }else{
+      this.boton="Buscar"
+      clearInterval (this.elinterval)
+    }
+    
+    
   }
   
+ 
   comandar(entrada:any){
     entrada.Estado='Comandado'
     this.servicios.update_pedido(entrada).subscribe( x =>{

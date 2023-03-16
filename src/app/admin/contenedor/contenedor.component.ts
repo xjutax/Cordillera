@@ -14,6 +14,9 @@ export class ContenedorComponent implements OnInit {
 
   ngOnInit(): void {
     this.elusuario = this.elservicio.getsession();
+    if(this.elusuario == null || this.elusuario== undefined){
+      this.router.navigate(['/Login']);
+    }
   }
 
   cerrarsesion(){

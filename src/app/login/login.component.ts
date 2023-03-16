@@ -29,6 +29,9 @@ export class LoginComponent implements OnInit {
       this.sedes = x;
       this.lasede = x.find((y: any) => y.Id==1)
     });  
+
+    let fecha = new Date('2023-03-16T00:00:00')
+    debugger
   }
 
   ngOnInit(): void {
