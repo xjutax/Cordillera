@@ -25,6 +25,7 @@ import { HistorialComponent } from './admin/historial/historial.component';
 import { ConfiguracionComponent } from './admin/configuracion/configuracion.component';
 import { AdminusuComponent } from './admin/adminusu/adminusu.component';
 import { MeseroComponent } from './admin/mesero/mesero.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -51,12 +52,13 @@ import { MeseroComponent } from './admin/mesero/mesero.component';
     
   ],
   imports: [
+     
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatInputModule,NgxPrintModule,HttpClientModule,MatTabsModule
+    MatInputModule,NgxPrintModule,HttpClientModule,MatTabsModule, NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent],

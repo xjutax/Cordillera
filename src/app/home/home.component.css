@@ -1,0 +1,94 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.sombra{
+    filter: drop-shadow(-10px 10px 10px #212121);   
+    z-index: 1; 
+}
+.sombra2{
+    filter: drop-shadow(10px 10px 10px #212121);   
+    z-index: 1;
+}
+
+.logo{
+    position: relative;
+    filter: drop-shadow(-13px -2px 2px  rgba(0,0,0,0.5));
+}
+
+.lamitad1{    
+    margin-right: 5px;
+    width: 100%;
+}
+.lamitad2{   
+    margin-left: 5px;
+    width: 100%;
+}
+.eldisplay{
+    display: flex;
+    width: 100%;
+}
+
+.centralcss path {
+    fill: #9c3c23;  
+}
+.volcancss path {
+    fill: red;  
+}
+.nevadocss path {
+    fill: #277bd4;  
+}
+.tropicalcss path {
+    fill: #f1d325;  
+}
+
+
+.content{
+    width: 100%;
+    background-color: black;
+    min-height: 100vh;
+    z-index: 2;
+    color: white;
+}
+
+.eltexto{
+    font-family: 'Cabin Sketch', cursive;
+    color: white;
+    font-size: 22px;
+    z-index: 1000;
+    position: relative;
+    top: 60%;
+    left: 5%;
+   
+}
+
+
+.content-images{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.tex
+{
+    color: white;
+    padding: 2rem 20rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 990px){
+    .eldisplay{   
+        display: block;
+        width: 100%;
+    }
+    .lamitad1{    
+        margin-right: 5px;
+        width: 100%;
+    }
+    .lamitad2{   
+        margin-left: 5px;
+        width: 100%;
+    }
+  }
