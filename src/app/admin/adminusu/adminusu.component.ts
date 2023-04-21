@@ -13,14 +13,19 @@ export class AdminusuComponent implements OnInit {
   public UserName:string="";
   public Password:string="";
   public Email:string="";
+  public Sueldo:string="0";
   public NombreCompleto:string="";
   public lista:Array<any>= new Array<any>();
   public eltipo:string="";
-  
+  public elusuario:any;
+
   constructor(private servicios:ServiciosService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    
+    this.elusuario = this.servicios.getsession();
+    if(this.elusuario.Clase == null){
+      this.elusuario.Clase="";
+    }
     this.llenargrilla();
   }
 
@@ -37,7 +42,7 @@ export class AdminusuComponent implements OnInit {
   crear(){
     let envio ={
       NombreUsuario:this.UserName,PasswordUsuario:this.Password,
-      Email:this.Email,NombreCompleto : this.NombreCompleto,Tipo:this.eltipo,Activo:true
+      Email:this.Email,NombreCompleto : this.NombreCompleto,Tipo:this.eltipo,Activo:true,Sueldo:this.Sueldo
     }
     this.servicios.save_usuario(envio).subscribe(x =>{
       const dialogRef = this.dialog.open(EldialogComponent, {

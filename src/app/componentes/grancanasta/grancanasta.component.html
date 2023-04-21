@@ -39,47 +39,59 @@
                         
                     </div>
                 </div>
-                <div *ngIf="esFactura">
-                    <div>
-                        <b>Tipo de pago:</b>
+                <div  [ngClass]="elusuario.Clase=='Mesero' ?  'elnover' : 'elver' ">
+                    <div *ngIf="esFactura">
+                        <div>
+                            <b>Tipo de pago:</b>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="width: 50%;">
+                                <div><input [(ngModel)]="esefect" (change)="esefectt()" type="checkbox"/> Efectivo =</div>
+                                <div style="display: flex;">
+                                    <div> <input [(ngModel)]="estarje" (change)="estarjett()" type="checkbox"/> Tarjeta</div>                                               
+                                    <div> <input [(ngModel)]="estranfe" (change)="estranfeF()" type="checkbox"/> Transferencia</div>                                               
+                                </div>
+                            </div>   
+                            <div *ngIf="esefect">
+                                <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
+                                <div><b>Cambio:</b>{{elcambio | currency}}</div>
+                            </div>   
+                        </div>
+                                                         
                     </div>
-                    <div style="display: flex;">
-                        <div style="width: 50%;">
-                            <div><input [(ngModel)]="esefect" (change)="esefectt()" type="checkbox"/> Efectivo =</div>
-                            <div> <input [(ngModel)]="estarje" (change)="esefectt()" type="checkbox"/> Tarjeta</div>                                               
-                        </div>   
-                        <div *ngIf="esefect">
-                            <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
-                            <div><b>Cambio:</b>{{elcambio | currency}}</div>
-                        </div>   
-                    </div>
-                                                     
+                    <div style="width: 100%;display: flex;">
+                        <div>Con servicio?:<input [(ngModel)]="esservicio" (change)="esservi()" type="checkbox"/></div>
+                        <div>Con descuento?:<input [(ngModel)]="esdecun" (change)="esdescuF()" type="checkbox"/></div>
+                         
+                     </div>
+                    <br>
+                    <div style="color: #0d790d;font-weight: bold;">
+                        <div style="display: flex;color: black;">
+                            <div style="width: 50%;">
+                                SubTotal: {{subtotal | currency}}
+                            </div>
+                            <div style="width: 50%;display: flex;">
+                                <div *ngIf="!editservicio">
+                                    Servicio: {{servicio | currency}}
+                                </div>
+                                <div *ngIf="editservicio">
+                                    <input [(ngModel)]="servicio" type="text" />
+                                </div>
+                                <input style="margin-left: 10px;" (change)="editserf()"  type="checkbox"/> Editar Servicio
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 5px;display: flex;">
+                            <div style="width: 50%;">
+                                Total: {{total | currency}}
+                            </div>  
+                            <div style="width: 50%;color: red;">
+                               Cuidado con el domicilio
+                            </div>  
+                        </div>                                                        
+                   </div>
                 </div>
-                <div style="width: 100%;display: flex;">
-                    <div>Con servicio?:<input [(ngModel)]="esservicio" (change)="esservi()" type="checkbox"/></div>
-                    <div>Con descuento?:<input [(ngModel)]="esdecun" (change)="esdescuF()" type="checkbox"/></div>
-                     
-                 </div>
-               <br>
-                <div style="color: #0d790d;font-weight: bold;">
-                    <div style="display: flex;color: black;">
-                        <div style="width: 50%;">
-                            SubTotal: {{subtotal | currency}}
-                        </div>
-                        <div style="width: 50%;">
-                            Servicio: {{servicio | currency}}
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 5px;display: flex;">
-                        <div style="width: 50%;">
-                            Total: {{total | currency}}
-                        </div>  
-                        <div style="width: 50%;color: red;">
-                           Cuidado con el domicilio
-                        </div>  
-                    </div>                                                        
-               </div>
+                
               
             </div>
             <div style="margin-top: 8px;font-weight: bold;">
@@ -102,7 +114,11 @@
                 <div style="display: flex;">
                     <div style="width: 50%;">
                         <div><input [(ngModel)]="esefect" (change)="esefectt()" type="checkbox"/> Efectivo =</div>
-                        <div> <input [(ngModel)]="estarje" (change)="estarjett()" type="checkbox"/> Tarjeta</div>                                               
+                        <div style="display: flex;">
+                            <div> <input [(ngModel)]="estarje" (change)="estarjett()" type="checkbox"/> Tarjeta</div>                                               
+                            <div> <input [(ngModel)]="estarje" (change)="estarjett()" type="checkbox"/> Transferencia</div>                                               
+                        </div>
+                        
                     </div>   
                     <div *ngIf="esefect">
                         <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
@@ -122,8 +138,14 @@
                     <div style="width: 50%;">
                         SubTotal: {{subtotal | currency}}
                     </div>
-                    <div style="width: 50%;">
-                        Servicio: {{servicio | currency}}
+                    <div style="width: 50%;display: flex;">
+                        <div *ngIf="!editservicio">
+                            Servicio: {{servicio | currency}}
+                        </div>
+                        <div *ngIf="editservicio">
+                            <input [(ngModel)]="servicio" type="text" />
+                        </div>
+                        <input style="margin-left: 10px;" (change)="editserf()"   type="checkbox"/> Editar Servicio
                     </div>
                 </div>
                 
@@ -177,4 +199,5 @@
 
         
     </div>
+    <div style="color: red;font-weight: bold;">{{MensajeError}}</div>
 </div>

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ServiciosService } from 'src/shared/services/servicios.service';
@@ -32,20 +33,27 @@ export class GrancanastaComponent implements OnInit {
   public lamesa:number=0;
   public esmodificar:boolean=false;
   public elpedido:number=0;
-
+  public editservicio:boolean=false;
   public Elefect:number|undefined;
   public elcambio:number=0;
-
+  public elusuario:any;
   public nombres:string="";
   public direccion:string="";
   public Celular:string="";
   public esFactura:boolean=false;
+  public serveditado:number=0;
+  public MensajeError:string="";
+  public estranfe:boolean=false;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<GrancanastaComponent>,private servicios:ServiciosService,public dialog: MatDialog) { }
 
   ngOnInit(): void {   
     this.esmesaa=true;
     
+    this.elusuario = this.servicios.getsession();
+    if(this.elusuario.Clase == null){
+      this.elusuario.Clase="";
+    }
     for (let index = 0; index < 20; index++) {
       this.listamesas.push(index);    
     }
@@ -85,20 +93,48 @@ export class GrancanastaComponent implements OnInit {
     
   }
 
+  editserf(){
+    this.editservicio=!this.editservicio
+    if(this.editservicio == false){
+      this.esservi();
+    }
+  }
+
+ 
   estarjett(){
     if(this.estarje){
-      this.esefect=false;      
+      this.esefect=false;    
+      this.estranfe=false;  
     }else{
       this.esefect=true;
     } 
   }
 
+  estranfeF(){
+    if(this.estranfe){
+      this.esefect=false;   
+      this.estarje =false;   
+    }
+  }
+
+  esefectt(){
+    
+    if(this.esefect){
+      this.Elefect=undefined;
+      this.estarje=false;
+      this.estranfe=false;
+    }else{
+      this.estarje=true;
+    }    
+  }
+
   facturarpedido(){
+    debugger
     let ellistaenvio = this.servicios.getcanasta();
     let envio1={
       Valor:this.total,
       Cantidad:this.cantidadT,
-      Fecha2:new Date(),
+      Fecha2:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
       Estado:"Facturado",
       Direccion:this.direccion,
       Observacion:this.observacion,
@@ -112,7 +148,12 @@ export class GrancanastaComponent implements OnInit {
       Descuento:this.esdecun,
       Servicio:this.esservicio,
       Sede:1,
-      Id:ellistaenvio[0].Pedido
+      Id:ellistaenvio[0].Pedido,
+      ValorNeto:this.subtotal,
+      ValServicio:this.servicio
+    }
+    if(this.estranfe){
+      envio1.TipoPago=2;
     }
     
     this.servicios.Facturar(envio1).subscribe(x =>{
@@ -213,15 +254,19 @@ export class GrancanastaComponent implements OnInit {
     }else{
       this.escliente2=true;
     }
+    this.MensajeError="";
   }
 
   esdomiF(){
     if(this.esdomi){
       this.escliente2=true;
       this.esmesaa=false;
+      this.esservicio=false
+      this.esservi();
     }else{
       this.escliente2=false;
     }
+    this.MensajeError="";
   }
 
   ngAfterViewInit (){
@@ -240,24 +285,22 @@ export class GrancanastaComponent implements OnInit {
     this.cargardatos();
   }
 
-  esefectt(){
-    
-    if(this.esefect){
-      this.Elefect=undefined;
-      this.estarje=false;
-    }else{
-      this.estarje=true;
-    }    
-  }
+  
   
   enviarPedido(){
+    if(this.esmesaa && this.lamesa==0){
+      this.MensajeError ="Seleccione una mesa por favor."
+      return;
+    }
+    
+    this.MensajeError="";
     let ellistaenvio = this.servicios.getcanasta();
     if(this.esmodificar){
       if(!this.escliente2){
         let envio1={
           Valor:this.total,
           Cantidad:this.cantidadT,
-          Fecha2:new Date(),
+          Fecha2:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
           Estado:"Modificado",
           Direccion:"",
           Observacion:this.observacion,
@@ -271,7 +314,12 @@ export class GrancanastaComponent implements OnInit {
           Descuento:this.esdecun,
           Servicio:this.esservicio,
           Sede:1,
-          Id:ellistaenvio[0].Pedido
+          Id:ellistaenvio[0].Pedido,
+          ValorNeto:this.subtotal,
+          ValServicio:this.servicio
+        }
+        if(this.estranfe){
+          envio1.TipoPago=2;
         }
         
         this.servicios.update_pedido(envio1).subscribe(x =>{
@@ -321,7 +369,7 @@ export class GrancanastaComponent implements OnInit {
         let envio1={
           Valor:this.total,
           Cantidad:this.cantidadT,
-          Fecha2:new Date(),
+          Fecha2:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
           Estado:"Modificado",
           Direccion:this.direccion,
           Observacion:this.observacion,
@@ -335,7 +383,12 @@ export class GrancanastaComponent implements OnInit {
           Descuento:this.esdecun,
           Servicio:this.esservicio,
           Sede:1,
-          Id:ellistaenvio[0].Pedido
+          Id:ellistaenvio[0].Pedido,
+          ValorNeto:this.subtotal,
+          ValServicio:this.servicio
+        }
+        if(this.estranfe){
+          envio1.TipoPago=2;
         }
 
         this.servicios.update_pedido(envio1).subscribe(x =>{
@@ -384,11 +437,12 @@ export class GrancanastaComponent implements OnInit {
       }                
       
     }else{
+      debugger
       if(!this.escliente2){
         let envio1={
           Valor:this.total,
           Cantidad:this.cantidadT,
-          Fecha2:new Date(),
+          Fecha2:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
           Estado:"Creado",
           Direccion:"",
           Observacion:this.observacion,
@@ -401,7 +455,12 @@ export class GrancanastaComponent implements OnInit {
           Usuario: this.servicios.getsession().Id,
           Descuento:this.esdecun,
           Servicio:this.esservicio,
-          Sede:1
+          Sede:1,
+          ValorNeto:this.subtotal,
+          ValServicio:this.servicio
+        }
+        if(this.estranfe){
+          envio1.TipoPago=2;
         }
         
         this.servicios.savePedido(envio1).subscribe(x =>{
@@ -451,7 +510,7 @@ export class GrancanastaComponent implements OnInit {
         let envio1={
           Valor:this.total,
           Cantidad:this.cantidadT,
-          Fecha2:new Date(),
+          Fecha2:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
           Estado:"Creado",
           Direccion:this.direccion,
           Observacion:this.observacion,
@@ -464,7 +523,12 @@ export class GrancanastaComponent implements OnInit {
           Usuario: this.servicios.getsession().Id,
           Descuento:this.esdecun,
           Servicio:this.esservicio,
-          Sede:1
+          Sede:1,
+          ValorNeto:this.subtotal,
+          ValServicio:this.servicio
+        }
+        if(this.estranfe){
+          envio1.TipoPago=2;
         }
         
         this.servicios.savePedido(envio1).subscribe(x =>{

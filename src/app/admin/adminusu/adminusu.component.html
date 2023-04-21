@@ -5,6 +5,15 @@
         </div>
         <div style="display: flex;height: 30px;">
             <div style="width: 120px;">
+               Nombre Completo:
+            </div>
+            <div>
+                <input [(ngModel)]="NombreCompleto" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
                UserName:
             </div>
             <div>
@@ -32,6 +41,15 @@
         </div>
         <div style="display: flex;height: 30px;">
             <div style="width: 120px;">
+                Sueldo:
+            </div>
+            <div>
+                <input [(ngModel)]="Sueldo" type="text" />
+            </div>
+          
+        </div>
+        <div style="display: flex;height: 30px;">
+            <div style="width: 120px;">
                 Tipo:
             </div>
             <div>
@@ -53,20 +71,47 @@
         </div>        
     </div>
     <div>
-        <div style="border: 1px solid black;" *ngFor="let item of lista">
-            <div style="display: flex;">
-                <div style="width: 25%;">
-                    {{item.NombreUsuario}}
+        <div style="border: 1px solid black;width: 100%;" *ngFor="let item of lista">
+            <div style="display: flex;width: 100%;">
+                
+                <div style="display: flex;width: 100%;" *ngIf="elusuario.Clase=='' ">
+                    <div style="width: 50%;">
+                        <div >
+                            Nombre Usuario:{{item.NombreUsuario}}
+                        </div>
+                        <div>
+                           Email: {{item.Email}}
+                        </div>
+                        <div>
+                            Pass:{{item.PasswordUsuario}}
+                        </div>
+                    </div>
+                    <div style="width: 50%;">
+                        <div>
+                           Sueldo: {{item.Sueldo}}
+                        </div>
+                        <div>
+                           Nombre: {{item.NombreCompleto}}
+                        </div>
+                    </div>                                       
                 </div>
-                <div style="width: 25%;">
-                    {{item.Email}}
+               
+                <div style="display: flex;width: 100%;" *ngIf="elusuario.Clase!='' ">
+                    <div style="width: 50%;">
+                        <div >
+                           Nombre Usuario {{item.NombreUsuario}}
+                        </div>
+                        <div >
+                           Email: {{item.Email}}
+                        </div>                    
+                    </div>
+                    <div style="width: 50%;">                       
+                        <div >
+                            Nombre: {{item.NombreCompleto}}
+                        </div>
+                    </div>    
                 </div>
-                <div style="width: 25%;">
-                    {{item.PasswordUsuario}}
-                </div>
-                <div style="width: 25%;">
-                    {{item.NombreCompleto}}
-                </div>
+               
             </div>
         </div>
     </div>

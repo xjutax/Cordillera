@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ServiciosService } from 'src/shared/services/servicios.service';
@@ -30,8 +31,8 @@ export class LoginComponent implements OnInit {
       this.lasede = x.find((y: any) => y.Id==1)
     });  
 
-    let fecha = new Date('2023-03-16T00:00:00')
-    debugger
+    let fecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))
+    
   }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class LoginComponent implements OnInit {
         this.mensaje ="Seleccione los parametros de turno."      
       }else{     
         let usuario = this.losservicios.getsession();
-        debugger
+        
         let usunu ={
           Activo: usuario.Activo,
           Id: usuario.Id,
@@ -76,7 +77,7 @@ export class LoginComponent implements OnInit {
         this.losservicios.savesession(usunu)
         let elturnoo = this.listaturno[this.listaturno.length-1];
         let elpuestoo = this.listapuesto[this.listapuesto.length-1];
-        let lafecha1 = new Date();
+        let lafecha1 = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
        let lafecha = lafecha1.getFullYear()+"-"+ (lafecha1.getMonth()+1)+"-"+lafecha1.getDate()+" "+lafecha1.getHours()+":"+lafecha1.getMinutes()+":"+lafecha1.getSeconds();
        this.losservicios.saveTurno(usuario.Id,true,lafecha,( (elturnoo.valor==1)?true:false),elpuestoo.valor).subscribe(yy =>{                            
           if(yy != null && yy.message1 =="Ok"){

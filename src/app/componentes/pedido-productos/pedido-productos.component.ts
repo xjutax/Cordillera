@@ -12,6 +12,7 @@ export class PedidoProductosComponent implements OnInit {
   public listaprod:Array<any>=new Array<any>();
   public listaprodbase:Array<any>=new Array<any>();
   public eltipo:number=0;
+  
   constructor(public dialogRef: MatDialogRef<PedidoProductosComponent>,private servicios:ServiciosService) { }
 
   ngOnInit(): void {
@@ -29,6 +30,7 @@ export class PedidoProductosComponent implements OnInit {
       this.dialogRef.close();
     })
     
+   
     
   }
 
@@ -41,10 +43,11 @@ export class PedidoProductosComponent implements OnInit {
 
   seleccionartipo(){  
     let eltipoo = this.eltipo as any;     
+    
     if(eltipoo==0){
       this.listaprod = this.listaprodbase;
     }else{
-      this.listaprod = this.listaprod.filter( x => x.Tipo == eltipoo);
+      this.listaprod = this.listaprodbase.filter( x => x.Tipo == eltipoo);
     }
     
   }

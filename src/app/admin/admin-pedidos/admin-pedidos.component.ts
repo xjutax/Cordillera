@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EldialogComponent } from 'src/app/componentes/eldialog/eldialog.component';
 import { GrancanastaComponent } from 'src/app/componentes/grancanasta/grancanasta.component';
 import { ServiciosService } from 'src/shared/services/servicios.service';
 import { PedidoProductosComponent  } from '../../componentes/pedido-productos/pedido-productos.component';
@@ -64,6 +65,17 @@ export class AdminPedidosComponent implements OnInit {
     }
     
     
+  }
+  
+  abrircaja(){
+    const dialogRef = this.dialog.open(EldialogComponent, {     
+      maxWidth: '100vw',
+      minWidth: '70%',
+      panelClass: 'my-panel',
+      data: {  
+        tipo:4,producto:{ValorIni:0,Id:0,ValorFin:0}         
+      }
+    });
   }
   
  

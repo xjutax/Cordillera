@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiciosService } from 'src/shared/services/servicios.service';
@@ -9,12 +10,12 @@ import { ServiciosService } from 'src/shared/services/servicios.service';
 })
 export class TurnosComponent implements OnInit {
 
-  public lafecha:Date=new Date();
-  public lafecha2:Date=new Date();
+  public lafecha:Date=new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
+  public lafecha2:Date=new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
   public Descripcion:string="";
   public Valor:number=0;
   public listasalida:Array<any>=new Array<any>();
-
+  public elfechas:string="";
   public listaturnoT:Array<any>=new Array<any>();
   constructor(private servicios:ServiciosService,public dialog: MatDialog) { }
 
@@ -24,7 +25,13 @@ export class TurnosComponent implements OnInit {
   }
 
   llenargrilla(){
-    this.lafecha = new Date(this.lafecha+'T00:00:00')
+    
+    if(this.elfechas== null || this.elfechas==undefined || this.elfechas==""){
+      this.lafecha = new Date(this.lafecha.getFullYear(),(this.lafecha.getMonth()),this.lafecha.getDate(),0,0,0);
+    }else{
+      this.lafecha = new Date(this.elfechas+'T00:00:00')
+    }
+    
     this.lafecha = new Date(this.lafecha.getFullYear(),(this.lafecha.getMonth()),this.lafecha.getDate(),0,0,0);
     this.lafecha2=new Date(this.lafecha.getFullYear(),(this.lafecha.getMonth()),this.lafecha.getDate(),0,0,0);
     this.lafecha2.setDate(this.lafecha.getDate()+1)

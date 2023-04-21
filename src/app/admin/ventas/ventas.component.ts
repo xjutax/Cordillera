@@ -9,6 +9,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import { ServiciosService } from 'src/shared/services/servicios.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ventas',
@@ -18,8 +19,8 @@ import { ServiciosService } from 'src/shared/services/servicios.service';
 export class VentasComponent implements OnInit {
 
   public lafechaS:string="";
-  public lafecha:Date= new Date();
-  public lafechaR:Date= new Date();
+  public lafecha:Date= new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
+  public lafechaR:Date= new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
   public tipobusqueda:number=0;
   public losproductos:Array<any>=new Array<any>();
   public losproductos2:Array<any>=new Array<any>();
@@ -28,7 +29,7 @@ export class VentasComponent implements OnInit {
   public lascategorias:Array<any>=new Array<any>();
   public lassalidas:Array<any>=new Array<any>();
   
-  public fechabase2:Date=new Date();
+  public fechabase2:Date=new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
   public fecha1:string="";
   public fecha2:string="";
 
@@ -39,7 +40,7 @@ export class VentasComponent implements OnInit {
   public TarjetaFinal:number=0;
   constructor(private servicios:ServiciosService,public dialog: MatDialog) { 
     this.lafechaS=this.lafecha.getDate()+" "+this.lafecha.toLocaleString('default', { month: 'long' });
-    this.lafecha = new Date()
+    this.lafecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))
     this.lafechaS=this.lafecha.getDate()+" "+this.lafecha.toLocaleString('default', { month: 'long' });
   }
 

@@ -2,6 +2,7 @@
     <div>
         <button class="botones" style="margin-right: 20px;" (click)="crearpedido()">Crear Pedido</button>
         <button class="botones" (click)="buscar()">{{boton}}</button>
+        <button class="botones" style="margin-left: 20px;" (click)="abrircaja()">Caja del dia</button>
     </div>
 
     <div style="margin-top: 10px;">
@@ -42,7 +43,7 @@
                 </div>
                 <div style="display: flex;">
                     <div style="margin-right: 10px;">
-                        Tipo Pedido:{{item.TipoPedido}}  
+                        Tipo Pedido:<b>{{item.TipoPedido}}  </b>
                     </div>
                     <div *ngIf="item.EsMesa">
                          Mesa No: {{item.Mesa}}   
@@ -113,7 +114,7 @@
                     <div style="margin-bottom: 10px;">
                         <button (click)="facturar(item)" *ngIf="item.Estado=='Creado' || item.Estado=='Comandado'" class="botones" style="width: 100px;">Facturar</button>
                     </div>
-                    <div>
+                    <div style="margin-bottom: 10px;">
                         <button (click)="Cancelar(item)"  class="botones" style="width: 100px;">Cancelar</button>
                     </div>
                 </div>

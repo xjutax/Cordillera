@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GrancanastaComponent } from 'src/app/componentes/grancanasta/grancanasta.component';
@@ -11,11 +12,11 @@ import { PedidoProductosComponent  } from '../../componentes/pedido-productos/pe
 })
 export class HistorialComponent implements OnInit {
   
-  public lafecha: Date = new Date();
-  public lafecha2: Date = new Date();
+  public lafecha: Date = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
+  public lafecha2: Date = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
 
-  public lafechaE: Date = new Date();
-  public lafecha2E: Date = new Date();
+  public lafechaE: Date = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
+  public lafecha2E: Date = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
   public listapedidos : Array<any>= new Array<any>();
   constructor(public dialog: MatDialog,private servicios:ServiciosService) { }
 

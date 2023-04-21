@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
     AOS.init( {offset: 120,
-    delay: 0,duration: 800, // values from 0 to 3000, with step 50ms
+    delay: 200,duration: 1000, // values from 0 to 3000, with step 50ms
     easing: 'ease', // default easing for AOS animations
     });
     window.addEventListener('load',AOS.refresh);

@@ -101,4 +101,34 @@
             <button (click)="ModificarProd()" class="botones">Modificar</button>
         </div>
     </div>
+    <div *ngIf="opcion==4">
+        <b>CAJA DEL DIA:</b>
+        <br/>
+        <div style="margin-top: 10px;">
+            <div *ngIf="!mostrarCaja" style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Ingrese valor apertura:</b></div>
+                <input type="text" [(ngModel)]="elproducto.ValorIni"/>
+                <button (click)="AbrirCaja()" style="margin-left: 10px;" class="botones">Abrir Caja</button>
+            </div>  
+            <div *ngIf="mostrarCaja" style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Valor apertura:</b></div>
+                <p>{{elproducto.ValorInicial | currency}}</p>
+               
+            </div>  
+            <div *ngIf="elproducto.EfectivoReal==0 || elproducto.EfectivoReal==null" style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>Ingrese valor en caja:</b></div>
+                <input type="text" [(ngModel)]="elproducto.EfectivoReal"/>
+                <button (click)="CerrarCaja()" class="botones">Cerrar Caja</button>
+            </div>   
+            <div *ngIf="elproducto.EfectivoReal > 0" style="display: flex;margin-bottom: 6px;">
+                <div style="width: 35%;"><b>valor en caja:</b></div>
+                <p>{{elproducto.EfectivoReal  | currency}}</p>
+               
+            </div>                                                              
+        </div>
+        <br/>
+        <div style="text-align: center;">            
+            <button (click)="closecaja()" class="botones">Aceptar</button>
+        </div>
+    </div>
 </div>

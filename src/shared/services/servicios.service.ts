@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
@@ -72,6 +73,13 @@ export class ServiciosService {
     return this.http.post<any>(this.LosServicios.API+"/getSalidas.php",envio, this.httpOptions);
   }
 
+  getcajahoy(fecha1:string,fecha2:string): Observable<any>{   
+    let envio ={
+      Fecha:fecha1,Fecha1:fecha2
+    } 
+    return this.http.post<any>(this.LosServicios.API+"/listar_cajahoy.php",envio, this.httpOptions);
+  }
+
   getHIstorial(fecha1:string,fecha2:string): Observable<any>{   
     let envio ={
       fecha1:fecha1,fecha2:fecha2
@@ -104,6 +112,8 @@ export class ServiciosService {
   }
   
   savePedido(envio:any): Observable<any>{    
+    let fechita = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');
+    envio.Fecha2 = fechita
     return this.http.post<any>(this.LosServicios.API+"/save_task.php",envio, this.httpOptions);
   }
 
@@ -117,6 +127,10 @@ export class ServiciosService {
 
   save_salidas(envio:any): Observable<any>{    
     return this.http.post<any>(this.LosServicios.API+"/save_salidas.php",envio, this.httpOptions);
+  }
+  
+  save_caja(envio:any): Observable<any>{    
+    return this.http.post<any>(this.LosServicios.API+"/save_caja.php",envio, this.httpOptions);
   }
 
   update_pedido(envio:any): Observable<any>{    
