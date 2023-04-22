@@ -44,6 +44,7 @@ export class GrancanastaComponent implements OnInit {
   public serveditado:number=0;
   public MensajeError:string="";
   public estranfe:boolean=false;
+  public eldescuval:number=0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<GrancanastaComponent>,private servicios:ServiciosService,public dialog: MatDialog) { }
 
@@ -140,7 +141,7 @@ export class GrancanastaComponent implements OnInit {
       Observacion:this.observacion,
       Celular:this.Celular,
       Nombre:this.nombres,
-      Efectivo:this.Elefect,
+      Efectivo:(this.Elefect != undefined)?this.Elefect:0,
       TipoPago:(this.esefect)?1:0,
       EsMesa:this.esmesaa,
       Mesa:this.lamesa,
@@ -150,10 +151,15 @@ export class GrancanastaComponent implements OnInit {
       Sede:1,
       Id:ellistaenvio[0].Pedido,
       ValorNeto:this.subtotal,
-      ValServicio:this.servicio
+      ValServicio:this.servicio,
+      ValDescuento : this.eldescuval
     }
     if(this.estranfe){
       envio1.TipoPago=2;
+    }
+
+    if(this.esdecun){
+      envio1.ValorNeto=this.subtotalbase
     }
     
     this.servicios.Facturar(envio1).subscribe(x =>{
@@ -201,16 +207,19 @@ export class GrancanastaComponent implements OnInit {
     this.elcambio = 0;
     this.Elefect = undefined;
     if(!this.esservicio){
-      if(this.esdecun){        
+      if(this.esdecun){    
+        this.eldescuval =    (this.subtotalbase*(Number(this.eldescu)/100));    
         this.subtotal = this.subtotalbase -(this.subtotalbase*(Number(this.eldescu)/100))      
         this.total = this.subtotal   
       }else{     
         this.servicio = 0
         this.subtotal = this.subtotalbase;
-        this.total = this.subtotalbase;      
+        this.total = this.subtotalbase;  
+        this.eldescuval =   0;    
       }
     }else{
-      if(this.esdecun){        
+      if(this.esdecun){     
+        this.eldescuval =    (this.subtotalbase*(Number(this.eldescu)/100));
         this.subtotal = this.subtotalbase -(this.subtotalbase*(Number(this.eldescu)/100))  
         this.servicio = (this.subtotal*(Number(this.elporcenajte)/100))    
         this.total = this.subtotal   + this.servicio
@@ -219,6 +228,7 @@ export class GrancanastaComponent implements OnInit {
         this.subtotal = this.subtotalbase;
         this.servicio = (this.subtotalbase*(Number(this.elporcenajte)/100))
         this.total = this.subtotal + this.servicio;
+        this.eldescuval=0;
       }
     }
    
@@ -316,7 +326,8 @@ export class GrancanastaComponent implements OnInit {
           Sede:1,
           Id:ellistaenvio[0].Pedido,
           ValorNeto:this.subtotal,
-          ValServicio:this.servicio
+          ValServicio:this.servicio,
+          ValDescuento : this.eldescuval
         }
         if(this.estranfe){
           envio1.TipoPago=2;
@@ -385,7 +396,8 @@ export class GrancanastaComponent implements OnInit {
           Sede:1,
           Id:ellistaenvio[0].Pedido,
           ValorNeto:this.subtotal,
-          ValServicio:this.servicio
+          ValServicio:this.servicio,
+          ValDescuento : this.eldescuval
         }
         if(this.estranfe){
           envio1.TipoPago=2;
@@ -457,7 +469,8 @@ export class GrancanastaComponent implements OnInit {
           Servicio:this.esservicio,
           Sede:1,
           ValorNeto:this.subtotal,
-          ValServicio:this.servicio
+          ValServicio:this.servicio,
+          ValDescuento : this.eldescuval
         }
         if(this.estranfe){
           envio1.TipoPago=2;
@@ -525,7 +538,8 @@ export class GrancanastaComponent implements OnInit {
           Servicio:this.esservicio,
           Sede:1,
           ValorNeto:this.subtotal,
-          ValServicio:this.servicio
+          ValServicio:this.servicio,
+          ValDescuento : this.eldescuval
         }
         if(this.estranfe){
           envio1.TipoPago=2;
