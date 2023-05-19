@@ -112,7 +112,7 @@
                         <button (click)="comandar(item)"  *ngIf="item.Estado=='Modificado' || item.Estado=='Creado'" class="botones" style="width: 100px;">Comandar</button>
                     </div>               
                     <div style="margin-bottom: 10px;">
-                        <button (click)="facturar(item)" *ngIf="item.Estado=='Creado' || item.Estado=='Comandado'" class="botones" style="width: 100px;">Facturar</button>
+                        <button (click)="facturar(item)" *ngIf="item.Estado=='Creado' || item.Estado=='Comandado' || item.Estado=='Modificado'" class="botones" style="width: 100px;">Facturar</button>
                     </div>
                     <div style="margin-bottom: 10px;">
                         <button (click)="Cancelar(item)"  class="botones" style="width: 100px;">Cancelar</button>

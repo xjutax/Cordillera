@@ -8,22 +8,14 @@
 <div>
     <div style="background-color: green;width: 100%;" class="elflex lascasillas">
         <div>
-            Total:
+            Subtotal:
         </div>
         <div>
-            {{TotalFinal | currency}}
+            {{ SubTotalFinal | currency}}
         </div>
     </div>
     <div class="elflex">
-        <div style="background-color: rgb(22, 200, 22);" class="elflex lascasillas">
-            <div>
-                SubTotal:
-            </div>
-            <div>
-                {{SubTotalFinal | currency}}
-            </div>
-        </div>
-        <div style="background-color: red;" class="elflex lascasillas">
+        <div style="background-color:red; " class="elflex lascasillas">
             <div>
                 Salidas:
             </div>
@@ -31,9 +23,7 @@
                 {{SalidasFinal | currency}}
             </div>
         </div>
-    </div>
-    <div class="elflex">
-        <div style="background-color: cadetblue;" class="elflex lascasillas">
+        <div style="background-color: rgb(22, 200, 22);" class="elflex lascasillas">
             <div>
                 Efectivo:
             </div>
@@ -41,13 +31,31 @@
                 {{EfectivoFinal | currency}}
             </div>
         </div>
-        <div style="background-color: chocolate;" class="elflex lascasillas">
+    </div>
+    <div class="elflex">
+        <div style="background-color: cadetblue;" class="elflex lascasillas">
             <div>
                 Tarjeta:
             </div>
             <div>
                 {{TarjetaFinal | currency}}
             </div>
+        </div>
+        <div style="background-color: chocolate;" class="elflex lascasillas">
+            <div>
+                Transferencia:
+            </div>
+            <div>
+                {{Transferenciafinal | currency}}
+            </div>
+        </div>
+    </div>
+    <div style="background-color: rgb(85, 123, 218);width: 100%;" class="elflex lascasillas">
+        <div>
+            Total:
+        </div>
+        <div>
+            {{TotalFinal | currency}}
         </div>
     </div>
 </div>

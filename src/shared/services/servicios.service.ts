@@ -80,6 +80,13 @@ export class ServiciosService {
     return this.http.post<any>(this.LosServicios.API+"/listar_cajahoy.php",envio, this.httpOptions);
   }
 
+  getcajacierre1(fecha1:string,fecha2:string): Observable<any>{   
+    let envio ={
+      Fecha:fecha1,Fecha1:fecha2
+    } 
+    return this.http.get<any>(this.LosServicios.API+"/listar_cajaCierre1.php?Fecha="+fecha1+"&Fecha1="+fecha2, this.httpOptions);
+  }
+
   getHIstorial(fecha1:string,fecha2:string): Observable<any>{   
     let envio ={
       fecha1:fecha1,fecha2:fecha2
@@ -161,9 +168,14 @@ export class ServiciosService {
     return this.http.get<any>(this.LosServicios.API+"/listar_ventasTotal.php?Tipo="+entrada+"&Fecha="+fecha1+"&Fecha1="+fecha2, this.httpOptions);
   }
 
+  listar_sueldos(): Observable<any>{    
+    return this.http.get<any>(this.LosServicios.API+"/listar_sueldos.php", this.httpOptions);
+  }
+
   
   
   addcanasta(entrada:any){    
+    
     let variable = sessionStorage.getItem("canasta");
     if(variable != null){
       let elarray = JSON.parse(variable) as Array<any>;
@@ -194,6 +206,7 @@ export class ServiciosService {
   }
 
   deletecanasta(entrada:any){    
+    
     let variable = sessionStorage.getItem("canasta");
     if(variable != null){
       let elarray = JSON.parse(variable) as Array<any>;

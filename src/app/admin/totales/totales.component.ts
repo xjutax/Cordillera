@@ -12,16 +12,16 @@ import { ServiciosService } from 'src/shared/services/servicios.service';
 import { formatDate } from '@angular/common';
 
 @Component({
-  selector: 'app-ventas',
-  templateUrl: './ventas.component.html',
-  styleUrls: ['./ventas.component.css']
+  selector: 'app-totales',
+  templateUrl: './totales.component.html',
+  styleUrls: ['./totales.component.css']
 })
-export class VentasComponent implements OnInit {
+export class TotalesComponent implements OnInit {
 
   public lafechaS:string="";
   public lafecha:Date= new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
   public lafechaR:Date= new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
-  public tipobusqueda:number=0;
+  public tipobusqueda:number=1;
   public losproductos:Array<any>=new Array<any>();
   public losproductos2:Array<any>=new Array<any>();
   public losproductos3:Array<any>=new Array<any>();
@@ -43,6 +43,19 @@ export class VentasComponent implements OnInit {
     this.lafechaS=this.lafecha.getDate()+" "+this.lafecha.toLocaleString('default', { month: 'long' });
     this.lafecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))
     this.lafechaS=this.lafecha.getDate()+" "+this.lafecha.toLocaleString('default', { month: 'long' });
+
+    if(this.tipobusqueda==0){
+      this.lafecha.setDate(this.lafecha.getDate());
+      this.lafechaS=this.lafecha.getDate()+" "+this.lafecha.toLocaleString('default', { month: 'long' });
+    }  
+    if(this.tipobusqueda==1){
+      this.lafecha.setMonth(this.lafecha.getMonth());
+      this.lafechaS=this.lafecha.toLocaleString('default', { month: 'long' });
+    }  
+    if(this.tipobusqueda==2){
+      this.lafecha.setFullYear(this.lafecha.getFullYear());
+      this.lafechaS= this.lafecha.getFullYear()+"";
+    }
   }
 
   ngOnInit(): void {
@@ -70,49 +83,51 @@ export class VentasComponent implements OnInit {
     this.fecha1 = this.lafecha.getFullYear()+"-"+ (this.lafecha.getMonth()+1)+"-"+this.lafecha.getDate()+"T00:00:00"
     this.fecha2 = this.fechabase2.getFullYear()+"-"+ (this.fechabase2.getMonth()+1)+"-"+this.fechabase2.getDate()+"T00:00:00"
     
-    this.servicios.listar_ventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(x =>{
-      this.servicios.listar_salidaventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(yy =>{
-        this.lassalidas=yy;
-        this.losproductos = x
-        this.losproductos.forEach(element => {
-          element.Hora=element.Hora.toString().substring(0,4)+"0",
-          element.Precio = Number(element.Precio)
-        });     
-        this.SalidasFinal = this.lassalidas.reduce((sum, current) => sum + Number(current.Valor), 0)
-        this.SubTotalFinal = this.losproductos.reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
-        this.TotalFinal = this.SubTotalFinal - this.SalidasFinal
-        this.EfectivoFinal = this.losproductos.filter(y => y.TipoPago=="1").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
-        this.TarjetaFinal = this.losproductos.filter(y => y.TipoPago=="0").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
-        this.Transferenciafinal = this.losproductos.filter(y => y.TipoPago=="2").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
-        this.losproductos.forEach( ele =>{
-          this.losproductos2.push({ NombreProducto:ele.NombreProducto,NombreTipo:ele.NombreTipo,Cantidad:ele.Cantidad,Precio:ele.Precio  })
-        })
-        this.losproductos.forEach( ele =>{
-          this.losproductos3.push({ NombreProducto:ele.NombreProducto,NombreTipo:ele.NombreTipo,Cantidad:ele.Cantidad,Precio:ele.Precio  })
-        })
-        this.armargrilla();
-        this.losarticulos =this.losproductos2.reduce((acc, item) => {  
-          let accItem = acc.find((ai:any) => ai.NombreProducto == item.NombreProducto)        
-          if(accItem){
-              accItem.Cantidad = Number(item.Cantidad) + Number(accItem.Cantidad)
-              accItem.Precio = Number(accItem.Cantidad) * Number(item.Precio)         
-          }else{
-            acc.push(item)
-          }      
-          return acc;
-        },[])
+    this.servicios.listar_sueldos().subscribe(elsueldo =>{
+      this.servicios.listar_ventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(x =>{
+        this.servicios.listar_salidaventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(yy =>{
+          this.lassalidas=yy;
+          this.losproductos = x
+          this.losproductos.forEach(element => {
+            element.Hora=element.Hora.toString().substring(0,4)+"0",
+            element.Precio = Number(element.Precio)
+          });     
+          this.SalidasFinal = this.lassalidas.reduce((sum, current) => sum + Number(current.Valor), 0) + Number(elsueldo[0].sueldos)
+          this.SubTotalFinal = this.losproductos.reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+          this.TotalFinal = (this.SubTotalFinal - this.SalidasFinal) //- Number(elsueldo[0].sueldos)
+          this.EfectivoFinal = this.losproductos.filter(y => y.TipoPago=="1").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+          this.TarjetaFinal = this.losproductos.filter(y => y.TipoPago=="0").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+          this.Transferenciafinal = this.losproductos.filter(y => y.TipoPago=="2").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+          this.losproductos.forEach( ele =>{
+            this.losproductos2.push({ NombreProducto:ele.NombreProducto,NombreTipo:ele.NombreTipo,Cantidad:ele.Cantidad,Precio:ele.Precio  })
+          })
+          this.losproductos.forEach( ele =>{
+            this.losproductos3.push({ NombreProducto:ele.NombreProducto,NombreTipo:ele.NombreTipo,Cantidad:ele.Cantidad,Precio:ele.Precio  })
+          })
+          this.armargrilla();
+          this.losarticulos =this.losproductos2.reduce((acc, item) => {  
+            let accItem = acc.find((ai:any) => ai.NombreProducto == item.NombreProducto)        
+            if(accItem){
+                accItem.Cantidad = Number(item.Cantidad) + Number(accItem.Cantidad)
+                accItem.Precio = Number(accItem.Cantidad) * Number(item.Precio)         
+            }else{
+              acc.push(item)
+            }      
+            return acc;
+          },[])
 
-        this.lascategorias =this.losproductos3.reduce((acc, item) => {  
-          let accItem = acc.find((ai:any) => ai.NombreTipo == item.NombreTipo)        
-          if(accItem){
-              accItem.Cantidad = Number(item.Cantidad) + Number(accItem.Cantidad)
-              accItem.Precio = Number(accItem.Cantidad) * Number(item.Precio)         
-          }else{
-            acc.push(item)
-          }      
-          return acc;
-        },[])
-      });                  
+          this.lascategorias =this.losproductos3.reduce((acc, item) => {  
+            let accItem = acc.find((ai:any) => ai.NombreTipo == item.NombreTipo)        
+            if(accItem){
+                accItem.Cantidad = Number(item.Cantidad) + Number(accItem.Cantidad)
+                accItem.Precio = Number(accItem.Cantidad) * Number(item.Precio)         
+            }else{
+              acc.push(item)
+            }      
+            return acc;
+          },[])
+        });                  
+      })
     })
   }
 

@@ -1,0 +1,37 @@
+#headerr{
+    display: flex;
+}
+
+.flechasfondo{
+    height: 15px;
+    width: 5%;
+    background-color: #cf6b0d;
+    padding: 10px 10px 20px 15px;
+    color:white;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.flechasfondo:hover{
+
+ background-color: #de893b;
+}
+
+.lamitadfecha{
+    width: 90%;
+    color:white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    padding-top: 10px;
+    text-align: center;
+    background-color: #cf6b0d;
+}
+
+.lascasillas{
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    width: 50%;
+    margin: 5px;
+}

@@ -26,7 +26,7 @@ import { ConfiguracionComponent } from './admin/configuracion/configuracion.comp
 import { AdminusuComponent } from './admin/adminusu/adminusu.component';
 import { MeseroComponent } from './admin/mesero/mesero.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { TotalesComponent } from './admin/totales/totales.component';
 
 
 @NgModule({
@@ -47,8 +47,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HistorialComponent,
     ConfiguracionComponent,
     AdminusuComponent,
-    MeseroComponent
-    
+    MeseroComponent,
+    TotalesComponent
     
   ],
   imports: [

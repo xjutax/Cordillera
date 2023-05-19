@@ -1,10 +1,47 @@
-<div>
-    <div>   
-        <div>
+<div style="overflow-y: scroll;max-height: 550px;">
+    <div style="width: 100%;display: flex;">   
+        <div style="width: 50%;text-align: left;">
             <b>Asi va tu pedido ( ^^)_旦:</b>
+        </div> 
+        <div *ngIf="data.elenvio.esFactura"  style="width: 50%;text-align: right;">
+            <button (click)="dividirpago()" class="botones">{{textobotondivide}}</button>
         </div>       
     </div>
-    <div style="margin-top: 20px;overflow-y: scroll;height: 115px;margin-bottom: 10px;">
+
+    <div *ngIf="pagodivide">
+        <div  style="margin-top: 20px;overflow-y: scroll;height: 115px;margin-bottom: 3px;">
+            <div *ngFor="let item of listaprod2" style="display: flex;margin: 5px;border-top: 1px solid grey;">
+                <div style="width: 60%;">
+                    {{item.Nombre}}
+                </div>
+                <div style="width: 10%;">
+                    x {{item.Cantidad}}
+                </div>           
+                <div style="width: 10%;">
+                    <button (click)="quitardivide(item)" class="botones" style="width: 90%;font-weight: bold;"> - </button>
+                </div>                        
+            </div>
+        </div>
+        <div style="font-weight: bold;font-style: unset;">
+            A pagar: {{totaldivide}}
+            <button (click)="liberardivide()" class="botones" style="width: 30%;font-weight: bold;margin-left: 10px;"> Liberar </button>
+        </div>
+        <div  style="margin-top: 20px;overflow-y: scroll;height: 115px;margin-bottom: 5px;">
+            <div *ngFor="let item of listaproddiv" style="display: flex;margin: 5px;border-top: 1px solid grey;">
+                <div style="width: 60%;">
+                    {{item.Nombre}}
+                </div>
+                <div style="width: 10%;">
+                    x {{item.Cantidad}}
+                </div>           
+                <div style="width: 10%;">
+                    <button (click)="quitardivide2(item)" class="botones" style="width: 90%;font-weight: bold;"> - </button>
+                </div>                        
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!pagodivide" style="margin-top: 20px;overflow-y: scroll;height: 115px;margin-bottom: 10px;">
         <div *ngFor="let item of listaprod" style="display: flex;margin: 5px;border-top: 1px solid grey;">
             <div style="width: 60%;">
                 {{item.Nombre}}
@@ -75,7 +112,7 @@
                                     Servicio: {{servicio | currency}}
                                 </div>
                                 <div *ngIf="editservicio">
-                                    <input [(ngModel)]="servicio" type="text" />
+                                    <input (focusout)="modservi()" style="width: 70px;" [(ngModel)]="servicio" type="text" />
                                 </div>
                                 <input style="margin-left: 10px;" (change)="editserf()"  type="checkbox"/> Editar Servicio
                             </div>

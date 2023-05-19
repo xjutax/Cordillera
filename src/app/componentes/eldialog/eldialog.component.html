@@ -111,24 +111,77 @@
                 <button (click)="AbrirCaja()" style="margin-left: 10px;" class="botones">Abrir Caja</button>
             </div>  
             <div *ngIf="mostrarCaja" style="display: flex;margin-bottom: 6px;">
-                <div style="width: 35%;"><b>Valor apertura:</b></div>
-                <p>{{elproducto.ValorInicial | currency}}</p>
-               
+                <div  style="width: 35%;">
+                    <div><b>Valor apertura:</b></div>
+                    <p>{{elproducto.ValorInicial | currency}}</p>
+                </div>
+                <div style="width: 35%;" *ngIf="valorrealcaja>0">
+                    <div><b>Valor real calculado:</b></div>
+                    <p>{{valorrealcaja | currency}}</p>
+                </div>       
+                <div style="width: 35%;" *ngIf="valorrealcaja>0">
+                    <div><b>Descuadre:</b></div>
+                    <p>{{descuadree | currency}}</p>
+                </div>  
             </div>  
-            <div *ngIf="elproducto.EfectivoReal==0 || elproducto.EfectivoReal==null" style="display: flex;margin-bottom: 6px;">
+            <div *ngIf="!lacerrarcaja" style="display: flex;margin-bottom: 6px;">
                 <div style="width: 35%;"><b>Ingrese valor en caja:</b></div>
                 <input type="text" [(ngModel)]="elproducto.EfectivoReal"/>
                 <button (click)="CerrarCaja()" class="botones">Cerrar Caja</button>
             </div>   
-            <div *ngIf="elproducto.EfectivoReal > 0" style="display: flex;margin-bottom: 6px;">
-                <div style="width: 35%;"><b>valor en caja:</b></div>
-                <p>{{elproducto.EfectivoReal  | currency}}</p>
+            <div *ngIf="lacerrarcaja" style="margin-bottom: 6px;">
+                <div style="display: flex;">
+                    <div style="width: 35%;">
+                        <div><b>valor en caja:</b></div>
+                        <p>{{elproducto.EfectivoReal  | currency}}</p>
+                    </div>
+                    <div style="width: 35%;">
+                        <div><b>valor Salidas:</b></div>
+                        <p>{{salidas  | currency}}</p>
+                    </div>
+                   <div style="width: 35%;">
+                        <div><b>valor Descuento:</b></div>
+                        <p>{{valdescuentoo  | currency}}</p>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div style="width: 35%;">
+                        <div><b>valor Efectivo:</b></div>
+                        <p>{{Tarjetaa  | currency}}</p>
+                    </div>
+                    <div style="width: 35%;">
+                        <div><b>valor Tarjeta:</b></div>
+                        <p>{{efectivoo  | currency}}</p>
+                    </div>
+                   <div style="width: 35%;">
+                        <div><b>valor Transferencia:</b></div>
+                        <p>{{transfrenciaa  | currency}}</p>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div style="width: 35%;">
+                        <div><b>Total Licitado:</b></div>
+                        <p>{{totallicitado  | currency}}</p>
+                    </div>
+                    <div style="width: 35%;">
+                        <div><b>Ventas Brutas:</b></div>
+                        <p>{{ventasbrutas  | currency}}</p>
+                    </div>
+                   <div style="width: 35%;">
+                        <div><b>Ventas Netas:</b></div>
+                        <p>{{ventasnetas  | currency}}</p>
+                    </div>
+                </div>
                
             </div>                                                              
         </div>
         <br/>
-        <div style="text-align: center;">            
+        <div style="text-align: center;display: flex;">            
             <button (click)="closecaja()" class="botones">Aceptar</button>
+            <div style="margin-left: 10px;" *ngIf="lacerrarcaja">
+                <button (click)="imprimir()" class="botones">Imprimir</button>
+            </div>
+           
         </div>
     </div>
 </div>

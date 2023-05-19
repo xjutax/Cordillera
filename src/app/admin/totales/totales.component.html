@@ -1,0 +1,26 @@
+<div>
+    <div id="headerr">
+        <div (click)="atras()" class="flechasfondo"> < </div>
+        <div (click)="abrirtipof()" class="lamitadfecha"> {{lafechaS}} </div>
+        <div (click)="adelante()" class="flechasfondo"> > </div>
+    </div>
+</div>
+<div>
+   
+    <div style="background-color: rgb(85, 123, 218);width: 100%;" class="elflex lascasillas">
+        <div>
+            Total:
+        </div>
+        <div>
+            {{TotalFinal | currency}}
+        </div>
+    </div>
+    <div style="background-color: red;width: 100%;" class="elflex lascasillas">
+        <div>
+            Salidas:
+        </div>
+        <div>
+            {{SalidasFinal | currency}}
+        </div>
+    </div>
+</div>

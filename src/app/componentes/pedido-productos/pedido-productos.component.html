@@ -1,6 +1,6 @@
 <div>
     <div>
-        <label><b>Seleccione tipo:</b></label>        
+        <label><b>Seleccione tipo:..</b></label>        
         <select [(ngModel)]="eltipo" (change)="seleccionartipo()">
             <option [value]="item.IdTipo" *ngFor="let item of listatipos">{{item.NombreTipo}}</option>
         </select>

@@ -37,7 +37,10 @@ export class AdminPedidosComponent implements OnInit {
       x.forEach((element:any) => {
           element.TipoPedido = (element.Mesa >0)?"Mesa":"Domicilio",
           element.EsMesa = (element.EsMesa=="0")?false:true;
+
+          element.detalle= element.detalle.filter( (xy:any) => xy.eliminado=="0");
       });
+     
       this.listapedidos = x;    
       console.log(x);  
     })
@@ -90,7 +93,10 @@ export class AdminPedidosComponent implements OnInit {
     this.servicios.GetPedido(entrada.Id).subscribe( x=>{
       this.servicios.dropCanasta();
       x.forEach((element:any) => {
-        this.servicios.addcanasta(element);
+        if(Number(element.Cantidad)>0){
+          this.servicios.addcanasta(element);
+        }
+        
       });
       
       this.servicios.tococanasta.next(true);

@@ -13,6 +13,8 @@ export class GrancanastaComponent implements OnInit {
 
   public subtotal:number=0;
   public listaprod:Array<any>=new Array<any>();
+  public listaprod2:Array<any>=new Array<any>();
+  public listaproddiv:Array<any>=new Array<any>();
   public escliente:boolean=false;
   public escliente2:boolean=false;
   public eltextoboton:string="Confirmar";
@@ -45,10 +47,16 @@ export class GrancanastaComponent implements OnInit {
   public MensajeError:string="";
   public estranfe:boolean=false;
   public eldescuval:number=0;
+
+  public pagodivide:boolean=false;
+  public totaldivide:number=0;
+  public textobotondivide:string="Dividir pago";
+  public serviciomemoria:number=0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<GrancanastaComponent>,private servicios:ServiciosService,public dialog: MatDialog) { }
 
   ngOnInit(): void {   
+    this.lamesa=1;
     this.esmesaa=true;
     
     this.elusuario = this.servicios.getsession();
@@ -94,6 +102,10 @@ export class GrancanastaComponent implements OnInit {
     
   }
 
+  modservi(){
+    this.total = (this.subtotal )+ Number(this.servicio)
+  }
+
   editserf(){
     this.editservicio=!this.editservicio
     if(this.editservicio == false){
@@ -130,7 +142,7 @@ export class GrancanastaComponent implements OnInit {
   }
 
   facturarpedido(){
-    debugger
+    
     let ellistaenvio = this.servicios.getcanasta();
     let envio1={
       Valor:this.total,
@@ -198,6 +210,7 @@ export class GrancanastaComponent implements OnInit {
         this.eldescu = x.find((y:any) => y.Nombre=="Descuento").Valor1
         this.elporcenajte = x.find((y:any) => y.Nombre=="Servicio").Valor1
         this.servicio = (this.subtotal*(Number(this.elporcenajte)/100))
+        this.serviciomemoria = (this.subtotal*(Number(this.elporcenajte)/100))
         this.total = this.subtotal + this.servicio;      
       })
     }    
@@ -335,7 +348,7 @@ export class GrancanastaComponent implements OnInit {
         
         this.servicios.update_pedido(envio1).subscribe(x =>{
           if(x != null && x.IdPedido >0){             
-            this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
+            //this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
             this.listaprod.forEach(element => {
               element.IdDetalle= (element.IdDetalle == undefined)?null:element.IdDetalle,
               element.Pedido = this.elpedido,
@@ -405,7 +418,7 @@ export class GrancanastaComponent implements OnInit {
 
         this.servicios.update_pedido(envio1).subscribe(x =>{
           if(x != null && x.IdPedido >0){             
-            this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
+            //this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
             this.listaprod.forEach(element => {
               element.IdDetalle= (element.IdDetalle == undefined)?null:element.IdDetalle,
               element.Pedido = this.elpedido,
@@ -449,7 +462,7 @@ export class GrancanastaComponent implements OnInit {
       }                
       
     }else{
-      debugger
+      
       if(!this.escliente2){
         let envio1={
           Valor:this.total,
@@ -483,7 +496,7 @@ export class GrancanastaComponent implements OnInit {
               element.Pedido=x.IdPedido
             });
   
-            this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
+            //this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
   
             this.servicios.save_detalle(this.listaprod).subscribe(y=>{
               if(x != null && x.IdPedido >0){
@@ -552,7 +565,7 @@ export class GrancanastaComponent implements OnInit {
               element.Pedido=x.IdPedido
             });
   
-            this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
+            //this.listaprod = this.listaprod.filter( y => y.Cantidad!=0);
   
             this.servicios.save_detalle(this.listaprod).subscribe(y=>{
               if(x != null && x.IdPedido >0){
@@ -592,6 +605,48 @@ export class GrancanastaComponent implements OnInit {
       
     }
     
+  }
+
+
+  dividirpago(){
+    this.pagodivide = !this.pagodivide;
+    if(this.pagodivide){
+      this.textobotondivide ="Cancelar division"
+      this.listaprod2 = new Array<any>();
+      this.listaprod.forEach(x =>{
+        this.listaprod2.push(x);
+      })
+      this.editserf();
+    }else{
+      this.textobotondivide ="Dividir pago"   
+      this.editservicio=false; 
+      this.esservi();  
+    }
+  }
+
+  quitardivide(entrada:any){
+    this.listaprod2 = this.listaprod2.filter(x => x.IdDetalle != entrada.IdDetalle)
+    this.listaproddiv.push(entrada)
+
+    this.totaldivide=0;
+    this.listaproddiv.forEach(x =>{
+      this.totaldivide += x.Cantidad*x.Precio
+    })
+  }
+  quitardivide2(entrada:any){
+    this.listaproddiv = this.listaproddiv.filter(x => x.IdDetalle != entrada.IdDetalle)
+    this.listaprod2.push(entrada)
+
+    this.totaldivide=0;
+    this.listaproddiv.forEach(x =>{
+      this.totaldivide += x.Cantidad*x.Precio
+    })
+  }
+
+
+  liberardivide(){
+    this.totaldivide=0;
+    this.listaproddiv=new Array<any>();
   }
 
 }
