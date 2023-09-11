@@ -107,13 +107,13 @@
         <div style="margin-top: 10px;">
             <div *ngIf="!mostrarCaja" style="display: flex;margin-bottom: 6px;">
                 <div style="width: 35%;"><b>Ingrese valor apertura:</b></div>
-                <input type="text" [(ngModel)]="elproducto.ValorIni"/>
+                <input type="text" [(ngModel)]="elproductocaja.ValorIni"/>
                 <button (click)="AbrirCaja()" style="margin-left: 10px;" class="botones">Abrir Caja</button>
             </div>  
             <div *ngIf="mostrarCaja" style="display: flex;margin-bottom: 6px;">
                 <div  style="width: 35%;">
                     <div><b>Valor apertura:</b></div>
-                    <p>{{elproducto.ValorInicial | currency}}</p>
+                    <p>{{elproductocaja.ValorInicial | currency}}</p>
                 </div>
                 <div style="width: 35%;" *ngIf="valorrealcaja>0">
                     <div><b>Valor real calculado:</b></div>
@@ -126,14 +126,14 @@
             </div>  
             <div *ngIf="!lacerrarcaja" style="display: flex;margin-bottom: 6px;">
                 <div style="width: 35%;"><b>Ingrese valor en caja:</b></div>
-                <input type="text" [(ngModel)]="elproducto.EfectivoReal"/>
+                <input type="text" [(ngModel)]="elproductocaja.EfectivoReal"/>
                 <button (click)="CerrarCaja()" class="botones">Cerrar Caja</button>
             </div>   
             <div *ngIf="lacerrarcaja" style="margin-bottom: 6px;">
                 <div style="display: flex;">
                     <div style="width: 35%;">
                         <div><b>valor en caja:</b></div>
-                        <p>{{elproducto.EfectivoReal  | currency}}</p>
+                        <p>{{elproductocaja.EfectivoReal  | currency}}</p>
                     </div>
                     <div style="width: 35%;">
                         <div><b>valor Salidas:</b></div>
@@ -147,11 +147,11 @@
                 <div style="display: flex;">
                     <div style="width: 35%;">
                         <div><b>valor Efectivo:</b></div>
-                        <p>{{Tarjetaa  | currency}}</p>
+                        <p>{{efectivoo  | currency}}</p>
                     </div>
                     <div style="width: 35%;">
                         <div><b>valor Tarjeta:</b></div>
-                        <p>{{efectivoo  | currency}}</p>
+                        <p>{{ Tarjetaa | currency}}</p>
                     </div>
                    <div style="width: 35%;">
                         <div><b>valor Transferencia:</b></div>

@@ -23,7 +23,7 @@ export class AdminusuComponent implements OnInit {
 
   ngOnInit(): void {
     this.elusuario = this.servicios.getsession();
-    if(this.elusuario.Clase == null){
+    if(this.elusuario != null && this.elusuario.Clase == null){
       this.elusuario.Clase="";
     }
     this.llenargrilla();

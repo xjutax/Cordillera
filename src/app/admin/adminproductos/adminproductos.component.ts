@@ -36,6 +36,7 @@ export class AdminproductosComponent implements OnInit {
     if(eltipoo==0){
       this.listaprod = this.listaprodbase;
     }else{
+      this.listaprod = this.listaprodbase;
       this.listaprod = this.listaprod.filter( x => x.Tipo == eltipoo);
     }    
   }

@@ -10,12 +10,15 @@ import { ServiciosService } from 'src/shared/services/servicios.service';
 export class ContenedorComponent implements OnInit {
   public tabindex:number=0;
   public elusuario:any;
+  public eltipo:string="";
   constructor(private elservicio:ServiciosService,private router:Router) { }
 
   ngOnInit(): void {
     this.elusuario = this.elservicio.getsession();
     if(this.elusuario == null || this.elusuario== undefined){
       this.router.navigate(['/Login']);
+    }else{
+      this.eltipo=this.elusuario.Clase;
     }
   }
 

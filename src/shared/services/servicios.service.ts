@@ -41,6 +41,10 @@ export class ServiciosService {
     return this.http.post<any>(this.LosServicios.API+"/update_producto.php", entrada,this.httpOptions);
   }
 
+  save_pagodivido(entrada:any): Observable<any>{        
+    return this.http.post<any>(this.LosServicios.API+"/save_pagodivido.php", entrada,this.httpOptions);
+  }
+
   save_imagen(entrada:File): Observable<any>{       
     const endpoint ='url'
     const formData = new FormData();
@@ -112,6 +116,10 @@ export class ServiciosService {
   
   listar_salidaventas(entrada:number,fecha1:string,fecha2:string): Observable<any>{    
     return this.http.get<any>(this.LosServicios.API+"/listar_salidaventas.php?Tipo="+entrada+"&Fecha="+fecha1+"&Fecha1="+fecha2, this.httpOptions);
+  }
+
+  listar_pagomonedas(entrada:number,fecha1:string,fecha2:string): Observable<any>{    
+    return this.http.get<any>(this.LosServicios.API+"/listar_pagomonedas.php?Tipo="+entrada+"&Fecha="+fecha1+"&Fecha1="+fecha2, this.httpOptions);
   }
 
   listar_pedidosP(): Observable<any>{    

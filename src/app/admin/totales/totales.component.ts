@@ -33,6 +33,8 @@ export class TotalesComponent implements OnInit {
   public fecha1:string="";
   public fecha2:string="";
 
+
+  public totalizado:number=0;
   public TotalFinal:number=0;
   public SubTotalFinal:number=0;
   public SalidasFinal:number=0;
@@ -86,6 +88,7 @@ export class TotalesComponent implements OnInit {
     this.servicios.listar_sueldos().subscribe(elsueldo =>{
       this.servicios.listar_ventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(x =>{
         this.servicios.listar_salidaventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(yy =>{
+          debugger
           this.lassalidas=yy;
           this.losproductos = x
           this.losproductos.forEach(element => {
@@ -98,6 +101,8 @@ export class TotalesComponent implements OnInit {
           this.EfectivoFinal = this.losproductos.filter(y => y.TipoPago=="1").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
           this.TarjetaFinal = this.losproductos.filter(y => y.TipoPago=="0").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
           this.Transferenciafinal = this.losproductos.filter(y => y.TipoPago=="2").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+
+          this.totalizado = this.EfectivoFinal+this.TarjetaFinal+this.Transferenciafinal;
           this.losproductos.forEach( ele =>{
             this.losproductos2.push({ NombreProducto:ele.NombreProducto,NombreTipo:ele.NombreTipo,Cantidad:ele.Cantidad,Precio:ele.Precio  })
           })

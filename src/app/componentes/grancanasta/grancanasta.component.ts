@@ -52,6 +52,11 @@ export class GrancanastaComponent implements OnInit {
   public totaldivide:number=0;
   public textobotondivide:string="Dividir pago";
   public serviciomemoria:number=0;
+
+  public moneda:boolean=false;
+  public elvalormoneda:number=0;
+
+  public totalmoneda:number=0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<GrancanastaComponent>,private servicios:ServiciosService,public dialog: MatDialog) { }
 
@@ -268,6 +273,7 @@ export class GrancanastaComponent implements OnInit {
       }
     } 
    
+    this.totalmoneda=this.total;
   }
 
   esmesaF(){
@@ -624,6 +630,37 @@ export class GrancanastaComponent implements OnInit {
     }
   }
 
+
+  dividirmoneda(){
+    this.moneda = !this.moneda;
+    this.totalmoneda = this.total;
+    
+  }
+
+  pagarmoneda(){
+   
+    let ellistaenvio = this.servicios.getcanasta();      
+    let envio = {IdPedido:Number(ellistaenvio[0].Pedido),Valor:Number(this.elvalormoneda),TipoPago:0,Fecha:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))}
+    if(this.esefect){
+      envio.TipoPago=1;
+    }else if(this.estranfe){
+      envio.TipoPago=2;
+    }else{
+      envio.TipoPago=0;
+    }
+
+    this.servicios.save_pagodivido(envio).subscribe(x =>{
+      if(x != null && x.IdPedido >0){
+        
+        this.MensajeError="";
+        this.totalmoneda = Number(this.totalmoneda )- Number(this.elvalormoneda)
+        this.elvalormoneda=0;
+      }else{
+        this.MensajeError="Algo sucedio contactese con el administrador o vuelva a intentarlo."
+      }
+    });
+   
+  }
   quitardivide(entrada:any){
     this.listaprod2 = this.listaprod2.filter(x => x.IdDetalle != entrada.IdDetalle)
     this.listaproddiv.push(entrada)

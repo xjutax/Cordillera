@@ -8,7 +8,7 @@
      
 </div>
 
-<div *ngIf="elusuario.Clase !='Mesero'">
+<div *ngIf="eltipo !='Mesero'">
     <mat-tab-group [(selectedIndex)]="tabindex">   
         <mat-tab label="Ventas"> 
             <ng-template mat-tab-label>
@@ -24,10 +24,15 @@
         <mat-tab label="Historial"> <app-historial></app-historial> </mat-tab>
         <mat-tab label="Configuracion"> <app-configuracion></app-configuracion> </mat-tab>
         <mat-tab label="Usuarios"> <app-adminusu></app-adminusu> </mat-tab>
-        <mat-tab label="Fin Mes"> <app-totales></app-totales> </mat-tab>
+      
+        <mat-tab label="Fin Mes"> 
+            <ng-template mat-tab-label>
+                <span (click)="ventascli()">Fin Mes</span>
+            </ng-template><app-totales></app-totales>
+        </mat-tab>
     </mat-tab-group>
 </div>
-<div *ngIf="elusuario.Clase=='Mesero'">
+<div *ngIf="eltipo=='Mesero'">
     <mat-tab-group [(selectedIndex)]="tabindex">          
         <mat-tab label="Pedidos"> <ng-template mat-tab-label>
             <span (click)="pedidoscli()">Pedidos</span>

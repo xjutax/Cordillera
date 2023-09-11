@@ -65,12 +65,19 @@
         </div>
         <div style="margin-top: 10px;" *ngIf="!escliente2">
             <div>
-                <div>
-                    <div>
+                <div style="display: flex;">
+                    <div style="width: 50%;">
                         <b>Seleccione mesa:</b>
                         <select [(ngModel)]="lamesa">
                             <option *ngFor="let item of listamesas" [value]="item">{{item}}</option>
                         </select>
+                    </div>
+                    <div>
+                        
+                    </div>
+
+                    <div style="width: 50%;">
+                        <button (click)="dividirmoneda()" class="botones" style="width: 120px;font-weight: bold;"> Dividir moneda </button>
                     </div>
                     <div>
                         
@@ -89,10 +96,27 @@
                                     <div> <input [(ngModel)]="estranfe" (change)="estranfeF()" type="checkbox"/> Transferencia</div>                                               
                                 </div>
                             </div>   
-                            <div *ngIf="esefect">
+                            <div *ngIf="esefect && !moneda">
                                 <div><input type="number" (keyup)="escribir()" [(ngModel)]="Elefect" /></div>
                                 <div><b>Cambio:</b>{{elcambio | currency}}</div>
                             </div>   
+                        </div>
+
+
+
+                        <div *ngIf="moneda" style="background-color: #e99037;" >
+                            <div style="display: flex;">
+                                <div style="width: 50%;font-weight: bold;">
+                                    Total: {{totalmoneda | currency}}
+                                </div>
+                                <div style="width: 50%;">
+                                    <div><input type="number" [(ngModel)]="elvalormoneda" /></div>
+                                </div>    
+                            </div>
+                            <div>
+                                <button (click)="pagarmoneda()" class="botones" style="width: 120px;font-weight: bold;">Liberar</button>
+                            </div>
+                            
                         </div>
                                                          
                     </div>

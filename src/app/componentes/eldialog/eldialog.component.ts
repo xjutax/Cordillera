@@ -14,6 +14,7 @@ export class EldialogComponent implements OnInit {
   public params:any;
   public MensajeDinamico:string="";
   public elproducto:any;
+  public elproductocaja:any;
   public listatipos:Array<any>=new Array<any>();
   public laimagen:any;
 
@@ -34,6 +35,10 @@ export class EldialogComponent implements OnInit {
   public totallicitado:number=0;
   public ventasbrutas:number=0;
 
+  public losproductos:Array<any>=new Array<any>();
+  public losproductosT:Array<any>=new Array<any>();
+  public losmonedas:Array<any>=new Array<any>();
+
   public lacerrarcaja:boolean=false;
   constructor(private servicios:ServiciosService,public dialogRef: MatDialogRef<EldialogComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -42,6 +47,7 @@ export class EldialogComponent implements OnInit {
     this.opcion = this.params.tipo;
     this.MensajeDinamico = this.params.mensaje;
     this.elproducto= this.data.producto;
+    this.elproductocaja= this.data.producto;
 
     this.servicios.GetTiposAll().subscribe(x =>{      
       this.listatipos = x;            
@@ -53,20 +59,90 @@ export class EldialogComponent implements OnInit {
       this.lacaja = x;     
       if(x != null && x.length>0){
         this.mostrarCaja=true;
-        this.elproducto = x[0];
-        if(this.elproducto.EfectivoReal > 0){
+        this.elproductocaja = x[0];
+        debugger
+        this.Tarjetaa = this.elproductocaja.Tarjeta
+        this.transfrenciaa = this.elproductocaja.Transferencia
+        this.valorrealcaja = this.elproductocaja.Efectivo   
+        this.efectivoo = this.elproductocaja.Efectivo   
+        if(this.elproductocaja.EfectivoReal > 0){
           this.lacerrarcaja = true;
           
-          this.totallicitado = this.elproducto.TotalLicitado;
-          this.ventasbrutas = (this.elproducto.VentasBrutas==null)?0:this.elproducto.VentasBrutas;
-          this.ventasnetas = this.elproducto.VentasNetas;
+          this.totallicitado = this.elproductocaja.TotalLicitado;
+          this.ventasbrutas = (this.elproductocaja.VentasBrutas==null)?0:this.elproductocaja.VentasBrutas;
+          this.ventasnetas = this.elproductocaja.VentasNetas;
           this.servicios.getcajacierre1(lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T00:00:00"
           ,lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T23:59:59" ).subscribe(y =>{      
             this.lacaja2 = y;    
             
             this.salidas = (y[0].Salidas==null)?0: y[0].Salidas;
+            this.mostrarCaja=true;
+            y.forEach((element2:any) => {
+              this.valdescuentoo += Number(element2.ValDescuento)
+              this.valservicioo += Number(element2.ValServicio)
+             
+
+             
+              
+            });  
+            
+            if( Number(this.elproductocaja.EfectivoReal) != Number(this.valorrealcaja)){
+              this.descuadree =  Number(this.elproductocaja.EfectivoReal) - Number(this.valorrealcaja)
+                if(this.descuadree < 0){
+                  this.descuadree = this.descuadree*(-1)
+                }
+            }
+          })
+        }
+      }
+    })
+  }
+
+  closecaja(){
+    this.dialogRef.close();
+  }
+
+  CerrarCaja(){
+    this.elproductocaja.Fecha = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');   
+    let lafecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));   
+    
+    let EfectivoFinal =0;
+    let TarjetaFinal =0;
+    let Transferenciafinal=0;
+
+    let fecha1 =lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T00:00:00";
+    let fecha2 =lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T23:59:59";
+    this.servicios.getcajacierre1(fecha1,fecha2 ).subscribe(y =>{      
+      this.servicios.listar_ventas(0,fecha1,fecha2).subscribe(x =>{
+        this.servicios.listar_salidaventas(0,fecha1,fecha2).subscribe(yy =>{
+          this.servicios.listar_pagomonedas(0,fecha1,fecha2).subscribe(yyy =>{          
+            this.losproductos = x
+            this.losproductosT = x
+            this.losmonedas=yyy;
+            this.losproductos.forEach(element => {
+              element.Hora=element.Hora.toString().substring(0,4)+"0",
+              element.Precio = Number(element.Precio)
+            });    
+                    
+            this.losmonedas.forEach(element => {
+              if(this.losproductosT.find(x=>x.Id==element.IdPedido)){
+                this.losproductosT=this.losproductosT.filter(x =>x.Id != element.IdPedido && x.IdProducto !="")
+              }           
+            });  
+            
+            
+            EfectivoFinal = this.losproductosT.filter(y => y.TipoPago=="1").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+            TarjetaFinal = this.losproductosT.filter(y => y.TipoPago=="0").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+            Transferenciafinal = this.losproductosT.filter(y => y.TipoPago=="2").reduce((sum, current) => sum + (current.Cantidad*current.Precio), 0)
+  
+            EfectivoFinal += Number(this.losmonedas.filter(y => y.TipoPago=="1").reduce((sum, current) => sum + (Number(current.Valor)), 0))
+            TarjetaFinal += Number(this.losmonedas.filter(y => y.TipoPago=="0").reduce((sum, current) => sum + (Number(current.Valor)), 0))
+            Transferenciafinal += Number(this.losmonedas.filter(y => y.TipoPago=="2").reduce((sum, current) => sum + (Number(current.Valor)), 0))
+            this.lacaja2 = y;    
+            this.salidas = y[0].Salidas   
 
             y.forEach((element2:any) => {
+              
               this.valdescuentoo += Number(element2.ValDescuento)
               this.valservicioo += Number(element2.ValServicio)
               if(element2.TipoPago=="0"){
@@ -82,68 +158,33 @@ export class EldialogComponent implements OnInit {
               
             });  
             
-            this.descuadree = Number(this.elproducto.EfectivoReal)-this.valorrealcaja;
-            if( this.descuadree < 0){
-              this.descuadree =  this.descuadree*(-1)
+           
+            if( Number(this.elproductocaja.EfectivoReal) != Number(this.valorrealcaja)){
+              this.descuadree =  Number(this.elproductocaja.EfectivoReal) - Number(this.valorrealcaja)
+                if(this.descuadree < 0){
+                  this.descuadree = this.descuadree*(-1)
+                }
             }
+
+            this.elproductocaja.ValorEfectivo = (EfectivoFinal==null)?0:EfectivoFinal;
+            this.elproductocaja.Salidas = (this.salidas==null)?0:this.salidas;
+            this.elproductocaja.EfectivoCaja = (EfectivoFinal==null)?0:EfectivoFinal;
+            this.elproductocaja.Descuadre = (this.descuadree==null)?0:this.descuadree;
+            this.elproductocaja.Descuento =( this.valdescuentoo==null)?0:this.valdescuentoo;
+            this.elproductocaja.Impuestos = (this.valservicioo==null)?0:this.valservicioo;
+
+            this.elproductocaja.Tarjeta = (TarjetaFinal==null)?0:TarjetaFinal;
+            this.elproductocaja.Transferencia = (Transferenciafinal==null)?0:Transferenciafinal;
+            this.elproductocaja.Impresion=false;
+            console.log(this.elproductocaja)
+            
+            this.servicios.save_caja(this.elproductocaja).subscribe( x =>{        
+              this.dialogRef.close();
+            })
           })
-        }
-      }
-    })
-  }
-
-  closecaja(){
-    this.dialogRef.close();
-  }
-
-  CerrarCaja(){
-    this.elproducto.Fecha = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');   
-
-    let lafecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
-    this.servicios.getcajacierre1(lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T00:00:00"
-    ,lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T23:59:59" ).subscribe(y =>{      
-      this.lacaja2 = y;    
-      this.salidas = y[0].Salidas   
-
-      y.forEach((element2:any) => {
-        
-        this.valdescuentoo += Number(element2.ValDescuento)
-        this.valservicioo += Number(element2.ValServicio)
-        if(element2.TipoPago=="0"){
-          this.Tarjetaa = element2.ValorNeto
-        }
-        if(element2.TipoPago=="1"){
-          this.efectivoo = element2.ValorNeto
-          this.valorrealcaja = element2.Valor
-        }
-        if(element2.TipoPago=="2"){
-          this.transfrenciaa = element2.ValorNeto
-        }             
-        
-      });  
-      
-      this.descuadree = Number(this.elproducto.EfectivoReal)-this.valorrealcaja;
-      if( this.descuadree < 0){
-        this.descuadree =  this.descuadree*(-1)
-      }
-
-      this.elproducto.ValorEfectivo = (this.efectivoo==null)?0:this.efectivoo;
-      this.elproducto.Salidas = (this.salidas==null)?0:this.salidas;
-      this.elproducto.EfectivoCaja = (this.efectivoo==null)?0:this.efectivoo;
-      this.elproducto.Descuadre = (this.descuadree==null)?0:this.descuadree;
-      this.elproducto.Descuento =( this.valdescuentoo==null)?0:this.valdescuentoo;
-      this.elproducto.Impuestos = (this.valservicioo==null)?0:this.valservicioo;
-
-      this.elproducto.Tarjeta = (this.Tarjetaa==null)?0:this.Tarjetaa;
-      this.elproducto.Transferencia = (this.transfrenciaa==null)?0:this.transfrenciaa;
-      this.elproducto.Impresion=false;
-      console.log(this.elproducto)
-      
-      this.servicios.save_caja(this.elproducto).subscribe( x =>{        
-        this.dialogRef.close();
+        })
       })
     })
-
     
     
   }
@@ -155,8 +196,8 @@ export class EldialogComponent implements OnInit {
   }
 
   AbrirCaja(){    
-    this.elproducto.Fecha = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');
-    this.servicios.save_caja(this.elproducto).subscribe( x =>{        
+    this.elproductocaja.Fecha = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');
+    this.servicios.save_caja(this.elproductocaja).subscribe( x =>{        
       this.dialogRef.close();
     })
   }
@@ -180,6 +221,7 @@ export class EldialogComponent implements OnInit {
   
 
   ModificarProd(){
+    debugger
     if(this.opcion==2){
       if(this.laimagen !=null){
         this.elproducto.Imagen =this.servicios.LosServicios.API+"/assets/img/"+this.laimagen.name;
