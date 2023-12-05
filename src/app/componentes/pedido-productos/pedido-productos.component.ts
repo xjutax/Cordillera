@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ServiciosService } from 'src/shared/services/servicios.service';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-pedido-productos',

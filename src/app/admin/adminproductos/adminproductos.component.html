@@ -8,20 +8,23 @@
 
     <div style="margin-top: 20px;overflow-y: scroll;height: 400px;margin-bottom: 10px;">
         <div *ngFor="let item of listaprod" style="margin: 5px;border-top: 1px solid grey;">
-            <div style="display: flex;">
-                <div style="margin-right: 10px;width: 50%;"><b>Nombre:</b> {{item.Nombre}}</div>
-                <div style="width: 50%;"><b>Precio:</b>  {{item.Precio | currency}}</div>
+            <div (click)="modificar(item)" style="cursor: pointer;">
+                <div style="display: flex;">
+                    <div style="margin-right: 10px;width: 50%;"><b>Nombre:</b> {{item.Nombre}}</div>
+                    <div style="width: 50%;"><b>Precio:</b>  {{item.Precio | currency}}</div>
+                </div>
+                <div style="margin-top: 10px;display: flex;">
+                    <div style="margin-right: 10px;width: 50%;"><b>Imagen:</b> {{item.Imagen}}</div>
+                    <div style="width: 50%;"><b>Tipo:</b>  {{item.NombreTipo}}</div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <div><b>Detalle:</b> {{item.Detalle}}</div>
+                </div>    
+                <!--<div>
+                    <button class="botones" (click)="modificar(item)">Modificar</button>
+                </div>                    -->
             </div>
-            <div style="margin-top: 10px;display: flex;">
-                <div style="margin-right: 10px;width: 50%;"><b>Imagen:</b> {{item.Imagen}}</div>
-                <div style="width: 50%;"><b>Tipo:</b>  {{item.NombreTipo}}</div>
-            </div>
-            <div style="margin-top: 10px;">
-                <div><b>Detalle:</b> {{item.Detalle}}</div>
-            </div>    
-            <div>
-                <button class="botones" (click)="modificar(item)">Modificar</button>
-            </div>                    
+            
         </div>
     </div>    
 </div>

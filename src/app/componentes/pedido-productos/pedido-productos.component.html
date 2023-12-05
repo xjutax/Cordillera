@@ -1,17 +1,19 @@
 <div>
-    <div>
-        <label><b>Seleccione tipo:..</b></label>        
-        <select [(ngModel)]="eltipo" (change)="seleccionartipo()">
-            <option [value]="item.IdTipo" *ngFor="let item of listatipos">{{item.NombreTipo}}</option>
-        </select>
+    <div>                
+        <mat-form-field>
+            <mat-label style="color: black;"><b>Seleccione tipo:</b></mat-label>
+            <mat-select [(ngModel)]="eltipo" (selectionChange)="seleccionartipo()">             
+                <mat-option *ngFor="let item2 of listatipos" [value]="item2.IdTipo">{{item2.NombreTipo}}</mat-option>              
+            </mat-select>
+        </mat-form-field>       
     </div>
 
     <div style="margin-top: 20px;overflow-y: scroll;height: 400px;margin-bottom: 10px;">
         <div *ngFor="let item of listaprod" style="display: flex;margin: 5px;border-top: 1px solid grey;">
-            <div style="width: 60%;">
+            <div style="width: 75%;text-align: left;">
                 {{item.Nombre}}
             </div>
-            <div style="width: 40%;">
+            <div style="width: 20%;text-align: right;">
                 <button (click)="adicionar(item)" class="elboton"> + </button>
             </div>                        
         </div>

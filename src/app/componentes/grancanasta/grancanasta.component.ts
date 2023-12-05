@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ServiciosService } from 'src/shared/services/servicios.service';
 import { EldialogComponent } from '../eldialog/eldialog.component';
 
+
 @Component({
   selector: 'app-grancanasta',
   templateUrl: './grancanasta.component.html',
@@ -23,6 +24,12 @@ export class GrancanastaComponent implements OnInit {
   public esdecun:boolean=false;
   public esefect:boolean=true;
   public estarje:boolean=false;
+  public estranfere:boolean=false;
+
+  public estranfe2:boolean=false;
+  public esefect2:boolean=true;
+  public estarje2:boolean=false;
+
   public servicio:number=0;
   public total:number=0;
   public esservicio:boolean=true;
@@ -45,7 +52,7 @@ export class GrancanastaComponent implements OnInit {
   public esFactura:boolean=false;
   public serveditado:number=0;
   public MensajeError:string="";
-  public estranfe:boolean=false;
+  
   public eldescuval:number=0;
 
   public pagodivide:boolean=false;
@@ -55,7 +62,7 @@ export class GrancanastaComponent implements OnInit {
 
   public moneda:boolean=false;
   public elvalormoneda:number=0;
-
+  public listapagodivid:Array<any>=new Array<any>();
   public totalmoneda:number=0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<GrancanastaComponent>,private servicios:ServiciosService,public dialog: MatDialog) { }
@@ -81,7 +88,7 @@ export class GrancanastaComponent implements OnInit {
       this.nombres = this.data.elenvio.Nombres
       this.elpedido = this.data.elenvio.Pedido;
       if(this.data.elenvio.Mesa != null && this.data.elenvio.Mesa != "0"){
-        this.lamesa = this.data.elenvio.Mesa;
+        this.lamesa = Number(this.data.elenvio.Mesa);
        
       }else{
         this.escliente2 = true;
@@ -122,14 +129,14 @@ export class GrancanastaComponent implements OnInit {
   estarjett(){
     if(this.estarje){
       this.esefect=false;    
-      this.estranfe=false;  
+      this.estranfere=false;  
     }else{
       this.esefect=true;
     } 
   }
 
   estranfeF(){
-    if(this.estranfe){
+    if(this.estranfere){
       this.esefect=false;   
       this.estarje =false;   
     }
@@ -140,9 +147,35 @@ export class GrancanastaComponent implements OnInit {
     if(this.esefect){
       this.Elefect=undefined;
       this.estarje=false;
-      this.estranfe=false;
+      this.estranfere=false;
     }else{
       this.estarje=true;
+    }    
+  }
+
+  estarjett2(){
+    if(this.estarje2){
+      this.esefect2=false;    
+      this.estranfe2=false;  
+    }else{
+      this.esefect2=true;
+    } 
+  }
+
+  estranfeF2(){
+    if(this.estranfe2){
+      this.esefect2=false;   
+      this.estarje2 =false;   
+    }
+  }
+
+  esefectt2(){
+    
+    if(this.esefect2){      
+      this.estarje2=false;
+      this.estranfe2=false;
+    }else{
+      this.estarje2=true;
     }    
   }
 
@@ -171,7 +204,7 @@ export class GrancanastaComponent implements OnInit {
       ValServicio:this.servicio,
       ValDescuento : this.eldescuval
     }
-    if(this.estranfe){
+    if(this.estranfere){
       envio1.TipoPago=2;
     }
 
@@ -180,7 +213,25 @@ export class GrancanastaComponent implements OnInit {
     }
     
     this.servicios.Facturar(envio1).subscribe(x =>{
-      if(x != null && x.IdPedido >0){                     
+      if(x != null && x.IdPedido >0){    
+        
+        if(this.listapagodivid.length > 0){
+          this.listapagodivid.forEach(element => {
+            element.Fecha = new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500')),
+            this.servicios.save_pagodivido(element).subscribe(x =>{
+              if(x != null && x.IdPedido >0){
+                
+                this.MensajeError="";
+                this.totalmoneda = Number(this.totalmoneda )- Number(this.elvalormoneda)
+                this.elvalormoneda=0;
+              }else{
+                this.MensajeError="Algo sucedio contactese con el administrador o vuelva a intentarlo."
+              }
+            });
+          });
+          
+        }
+
           const dialogRef = this.dialog.open(EldialogComponent, {
             maxWidth: '100vw',
             minWidth: '40%',
@@ -206,7 +257,11 @@ export class GrancanastaComponent implements OnInit {
 
   cargardatos(){
 
-    this.listaprod = this.servicios.getcanasta() as Array<any>;       
+    this.listaprod = this.servicios.getcanasta() as Array<any>;   
+    if(this.esFactura){
+      this.listaprod = this.listaprod.filter(x => x.Cantidad >0);     
+    } 
+    
     if(this.listaprod != null){
       this.cantidadT = this.listaprod.reduce((sum, current) => sum + current.Cantidad, 0);   
       this.subtotal = this.listaprod.reduce((sum, current) => sum + (Number(current.Cantidad)*Number(current.Precio)), 0);
@@ -348,7 +403,7 @@ export class GrancanastaComponent implements OnInit {
           ValServicio:this.servicio,
           ValDescuento : this.eldescuval
         }
-        if(this.estranfe){
+        if(this.estranfere){
           envio1.TipoPago=2;
         }
         
@@ -418,7 +473,7 @@ export class GrancanastaComponent implements OnInit {
           ValServicio:this.servicio,
           ValDescuento : this.eldescuval
         }
-        if(this.estranfe){
+        if(this.estranfere){
           envio1.TipoPago=2;
         }
 
@@ -491,7 +546,7 @@ export class GrancanastaComponent implements OnInit {
           ValServicio:this.servicio,
           ValDescuento : this.eldescuval
         }
-        if(this.estranfe){
+        if(this.estranfere){
           envio1.TipoPago=2;
         }
         
@@ -560,7 +615,7 @@ export class GrancanastaComponent implements OnInit {
           ValServicio:this.servicio,
           ValDescuento : this.eldescuval
         }
-        if(this.estranfe){
+        if(this.estranfere){
           envio1.TipoPago=2;
         }
         
@@ -575,6 +630,8 @@ export class GrancanastaComponent implements OnInit {
   
             this.servicios.save_detalle(this.listaprod).subscribe(y=>{
               if(x != null && x.IdPedido >0){
+
+                
                 const dialogRef = this.dialog.open(EldialogComponent, {
                   maxWidth: '100vw',
                   minWidth: '40%',
@@ -619,8 +676,30 @@ export class GrancanastaComponent implements OnInit {
     if(this.pagodivide){
       this.textobotondivide ="Cancelar division"
       this.listaprod2 = new Array<any>();
+      this.listapagodivid= new Array<any>();
       this.listaprod.forEach(x =>{
-        this.listaprod2.push(x);
+        let subentrada = {
+          Cantidad: x.Cantidad
+          ,Celular: x.Celular
+          ,Direccion: x.Direccion
+          ,Efectivo: x.Efectivo
+          ,Id: x.Id
+          ,IdDetalle: x.IdDetalle
+          ,IdTipo: x.IdTipo
+          ,Mesa: x.Mesa
+          ,Nombre: x.Nombre
+          ,NombreCompleto: x.NombreCompleto
+          ,NombreTipo: x.NombreTipo
+          ,Nombres: x.Nombres
+          ,Observacion: x.Observacion
+          ,Pedido: x.Pedido
+          ,Precio: x.Precio
+          ,Producto: x.Producto
+          ,Tipo: x.Tipo
+          ,esFactura: x.esFactura
+          ,total: x.total
+        }     
+        this.listaprod2.push(subentrada);
       })
       this.editserf();
     }else{
@@ -643,7 +722,7 @@ export class GrancanastaComponent implements OnInit {
     let envio = {IdPedido:Number(ellistaenvio[0].Pedido),Valor:Number(this.elvalormoneda),TipoPago:0,Fecha:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))}
     if(this.esefect){
       envio.TipoPago=1;
-    }else if(this.estranfe){
+    }else if(this.estranfere){
       envio.TipoPago=2;
     }else{
       envio.TipoPago=0;
@@ -662,8 +741,43 @@ export class GrancanastaComponent implements OnInit {
    
   }
   quitardivide(entrada:any){
+    
     this.listaprod2 = this.listaprod2.filter(x => x.IdDetalle != entrada.IdDetalle)
-    this.listaproddiv.push(entrada)
+    if(entrada.Cantidad -1 >0){
+        entrada.Cantidad = entrada.Cantidad-1;
+        this.listaprod2.push(entrada)
+    }
+
+    let variable = this.listaproddiv.find(x => x.IdDetalle == entrada.IdDetalle)
+    if(variable != null){
+      variable.Cantidad = variable.Cantidad+1;
+      this.listaproddiv = this.listaproddiv.filter(x => x.IdDetalle != entrada.IdDetalle)
+      this.listaproddiv.push(variable)
+    }else{
+      let subentrada = {
+        Cantidad: 1
+        ,Celular: entrada.Celular
+        ,Direccion: entrada.Direccion
+        ,Efectivo: entrada.Efectivo
+        ,Id: entrada.Id
+        ,IdDetalle: entrada.IdDetalle
+        ,IdTipo: entrada.IdTipo
+        ,Mesa: entrada.Mesa
+        ,Nombre: entrada.Nombre
+        ,NombreCompleto: entrada.NombreCompleto
+        ,NombreTipo: entrada.NombreTipo
+        ,Nombres: entrada.Nombres
+        ,Observacion: entrada.Observacion
+        ,Pedido: entrada.Pedido
+        ,Precio: entrada.Precio
+        ,Producto: entrada.Producto
+        ,Tipo: entrada.Tipo
+        ,esFactura: entrada.esFactura
+        ,total: entrada.total
+      }     
+      this.listaproddiv.push(subentrada)
+    }
+    
 
     this.totaldivide=0;
     this.listaproddiv.forEach(x =>{
@@ -671,8 +785,13 @@ export class GrancanastaComponent implements OnInit {
     })
   }
   quitardivide2(entrada:any){
+    
+
+    let variable = this.listaprod.find(x => x.IdDetalle == entrada.IdDetalle)
+
     this.listaproddiv = this.listaproddiv.filter(x => x.IdDetalle != entrada.IdDetalle)
-    this.listaprod2.push(entrada)
+    this.listaprod2 = this.listaprod2.filter(x => x.IdDetalle != entrada.IdDetalle)
+    this.listaprod2.push(variable)
 
     this.totaldivide=0;
     this.listaproddiv.forEach(x =>{
@@ -682,8 +801,20 @@ export class GrancanastaComponent implements OnInit {
 
 
   liberardivide(){
+
+    let ellistaenvio = this.servicios.getcanasta();      
+    let envio = {IdPedido:Number(ellistaenvio[0].Pedido),Valor:Number(this.totaldivide),TipoPago:0,Fecha:new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'))}
+    if(this.esefect2){
+      envio.TipoPago=1;
+    }else if(this.estranfe2){
+      envio.TipoPago=2;
+    }else{
+      envio.TipoPago=0;
+    }
+
     this.totaldivide=0;
     this.listaproddiv=new Array<any>();
+    this.listapagodivid.push(envio);
   }
 
 }

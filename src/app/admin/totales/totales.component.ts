@@ -88,7 +88,7 @@ export class TotalesComponent implements OnInit {
     this.servicios.listar_sueldos().subscribe(elsueldo =>{
       this.servicios.listar_ventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(x =>{
         this.servicios.listar_salidaventas(this.tipobusqueda,this.fecha1,this.fecha2).subscribe(yy =>{
-          debugger
+          
           this.lassalidas=yy;
           this.losproductos = x
           this.losproductos.forEach(element => {

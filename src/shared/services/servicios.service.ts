@@ -13,6 +13,7 @@ export class ServiciosService {
   public LosServicios : AppSettings= new AppSettings();  
   public tococanasta:Subject<boolean> =new Subject<boolean>;
   public tocoventas:Subject<boolean> =new Subject<boolean>;
+  public tocosalida:Subject<boolean> =new Subject<boolean>;
   public tocoPedidos:Subject<boolean> =new Subject<boolean>;
   public cerrarventanas:Subject<boolean> =new Subject<boolean>;
   private httpOptions = {
@@ -42,6 +43,8 @@ export class ServiciosService {
   }
 
   save_pagodivido(entrada:any): Observable<any>{        
+    let fechita = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500');
+    entrada.Fecha = fechita
     return this.http.post<any>(this.LosServicios.API+"/save_pagodivido.php", entrada,this.httpOptions);
   }
 
@@ -140,6 +143,10 @@ export class ServiciosService {
     return this.http.post<any>(this.LosServicios.API+"/save_usuario.php",envio, this.httpOptions);
   }
 
+  delete_usuario(envio:any): Observable<any>{    
+    return this.http.post<any>(this.LosServicios.API+"/delete_usuario.php",envio, this.httpOptions);
+  }
+
   save_salidas(envio:any): Observable<any>{    
     return this.http.post<any>(this.LosServicios.API+"/save_salidas.php",envio, this.httpOptions);
   }
@@ -183,18 +190,20 @@ export class ServiciosService {
   
   
   addcanasta(entrada:any){    
-    
+    if(entrada.Producto == null || entrada.Producto == undefined){
+      entrada.Producto=entrada.Id;
+    }
     let variable = sessionStorage.getItem("canasta");
     if(variable != null){
       let elarray = JSON.parse(variable) as Array<any>;
-      let elobjeto = elarray.find(x => x.Id==entrada.Id)
+      let elobjeto = elarray.find(x => x.Producto==entrada.Producto)
       if(elobjeto != null){
         elobjeto.Cantidad = Number(elobjeto.Cantidad)+1;       
       }else{
         entrada.Cantidad=1;
         elobjeto = entrada;       
       }
-      elarray = elarray.filter( x =>x.Id!=entrada.Id)
+      elarray = elarray.filter( x =>x.Producto!=entrada.Producto)
       elarray.push(elobjeto);
       sessionStorage.setItem("canasta", JSON.stringify(elarray))
     }else{

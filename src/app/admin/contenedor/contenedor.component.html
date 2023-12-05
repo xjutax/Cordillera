@@ -8,7 +8,7 @@
      
 </div>
 
-<div *ngIf="eltipo !='Mesero'">
+<div *ngIf="eltipo !='Mesero' && eltipo !='Caja'">
     <mat-tab-group [(selectedIndex)]="tabindex">   
         <mat-tab label="Ventas"> 
             <ng-template mat-tab-label>
@@ -18,7 +18,11 @@
         <mat-tab label="Pedidos"> <ng-template mat-tab-label>
             <span (click)="pedidoscli()">Pedidos</span>
         </ng-template><app-admin-pedidos></app-admin-pedidos> </mat-tab>
-        <mat-tab label="Salidas"> <app-salidas></app-salidas></mat-tab>
+        <mat-tab label="Salidas"> 
+            <ng-template mat-tab-label>
+                <span (click)="ventasSalidas()">Salidas</span>
+            </ng-template><app-salidas></app-salidas>
+        </mat-tab>
         <mat-tab label="Turnos"> <app-turnos></app-turnos> </mat-tab>
         <mat-tab label="Productos"> <app-adminproductos></app-adminproductos> </mat-tab>
         <mat-tab label="Historial"> <app-historial></app-historial> </mat-tab>
@@ -30,6 +34,28 @@
                 <span (click)="ventascli()">Fin Mes</span>
             </ng-template><app-totales></app-totales>
         </mat-tab>
+    </mat-tab-group>
+</div>
+<div *ngIf="eltipo =='Caja'">
+    <mat-tab-group [(selectedIndex)]="tabindex">   
+        <mat-tab label="Ventas"> 
+            <ng-template mat-tab-label>
+                <span (click)="ventascli()">Ventas</span>
+            </ng-template><app-ventas></app-ventas>
+        </mat-tab>
+        <mat-tab label="Pedidos"> <ng-template mat-tab-label>
+            <span (click)="pedidoscli()">Pedidos</span>
+        </ng-template><app-admin-pedidos></app-admin-pedidos> </mat-tab>
+        <mat-tab label="Salidas"> 
+            <ng-template mat-tab-label>
+                <span (click)="ventasSalidas()">Salidas</span>
+            </ng-template><app-salidas></app-salidas>
+        </mat-tab>
+       
+        <mat-tab label="Productos"> <app-adminproductos></app-adminproductos> </mat-tab>
+        <mat-tab label="Historial"> <app-historial></app-historial> </mat-tab>
+        <mat-tab label="Configuracion"> <app-configuracion></app-configuracion> </mat-tab>
+        <mat-tab label="Usuarios"> <app-adminusu></app-adminusu> </mat-tab>             
     </mat-tab-group>
 </div>
 <div *ngIf="eltipo=='Mesero'">

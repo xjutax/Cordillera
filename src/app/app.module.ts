@@ -27,7 +27,9 @@ import { AdminusuComponent } from './admin/adminusu/adminusu.component';
 import { MeseroComponent } from './admin/mesero/mesero.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TotalesComponent } from './admin/totales/totales.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { TotalesComponent } from './admin/totales/totales.component';
     
   ],
   imports: [
-     
+    MatSelectModule,
+    MatCheckboxModule,
+    MatIconModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,

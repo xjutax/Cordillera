@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EldialogComponent } from 'src/app/componentes/eldialog/eldialog.component';
 import { ServiciosService } from 'src/shared/services/servicios.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-adminusu',
@@ -37,7 +38,23 @@ export class AdminusuComponent implements OnInit {
     })
   }
 
-  
+  borrarusuario(entrada:string){
+    let envio ={
+      NombreUsuario:entrada
+    }
+    this.servicios.delete_usuario(envio).subscribe(x =>{
+      const dialogRef = this.dialog.open(EldialogComponent, {
+        maxWidth: '100vw',
+        minWidth: '40%',
+        panelClass: 'my-panel',
+        data: {  
+          tipo:0,mensaje:"usuario eliminado con exito."          
+        }               
+      });
+      
+      this.llenargrilla();
+    })
+  }
 
   crear(){
     let envio ={

@@ -1,10 +1,11 @@
 #headerr{
     display: flex;
+    height: 35px;
 }
 
 .flechasfondo{
-    height: 15px;
-    width: 5%;
+    height: 35px;
+    width: 10%;
     background-color: #cf6b0d;
     padding: 10px 10px 20px 15px;
     color:white;
@@ -13,8 +14,10 @@
     cursor: pointer;
 }
 .flechasfondo:hover{
-
+    
  background-color: #de893b;
+ 
+ 
 }
 
 .lamitadfecha{
@@ -29,7 +32,7 @@
 }
 
 .lascasillas{
-    padding: 10px;
+    padding: 5px;
     color: white;
     font-weight: bold;
     width: 50%;

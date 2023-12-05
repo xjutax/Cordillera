@@ -1,0 +1,2 @@
+Juta recordar que el angular core es de 16
+que para generar las fuentes se usa: npm run ng build --base-href="./"

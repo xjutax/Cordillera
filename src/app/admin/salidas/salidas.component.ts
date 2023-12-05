@@ -24,8 +24,13 @@ export class SalidasComponent implements OnInit {
 
   ngOnInit(): void {
     this.escaja=1;  
-    this.lafecha = new Date(this.lafecha.getFullYear()+"-"+(this.lafecha.getUTCMonth()+1)+"-"+this.lafecha.getDate())
+    this.lafecha= new Date(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'));
+    // this.lafecha = new Date(this.lafecha.getFullYear()+"-"+(this.lafecha.getUTCMonth()+1)+"-"+this.lafecha.getDate())
     this.llenargrilla();
+
+    this.servicios.tocosalida.subscribe(x =>{
+      this.llenargrilla();
+    })
   }
 
   escajaaF(){

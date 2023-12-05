@@ -4,6 +4,10 @@ import { EldialogComponent } from 'src/app/componentes/eldialog/eldialog.compone
 import { GrancanastaComponent } from 'src/app/componentes/grancanasta/grancanasta.component';
 import { ServiciosService } from 'src/shared/services/servicios.service';
 import { PedidoProductosComponent  } from '../../componentes/pedido-productos/pedido-productos.component';
+import {MatSelectModule} from '@angular/material/select';
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // Todavía no lo usamos
 
 @Component({
   selector: 'app-admin-pedidos',
@@ -11,6 +15,13 @@ import { PedidoProductosComponent  } from '../../componentes/pedido-productos/pe
   styleUrls: ['./admin-pedidos.component.css']
 })
 export class AdminPedidosComponent implements OnInit {
+
+  public downloadPDF(): void {
+    const doc = new jsPDF();
+
+    doc.text('Hello world!', 10, 10);
+    doc.save('hello-world.pdf');
+  }
   
   public listapedidos : Array<any>= new Array<any>();
   public elusu:any;

@@ -13,6 +13,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     cursor: pointer;
 }
 
+.mat-form-field.mat-focused .mat-form-field-ripple{
+  background-color: black;
+}
+
 .botones:hover{
     background-color: #CB6B52;
 }

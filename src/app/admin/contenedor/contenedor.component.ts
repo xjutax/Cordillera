@@ -37,4 +37,8 @@ export class ContenedorComponent implements OnInit {
   pedidoscli(){
     this.elservicio.tocoPedidos.next(true);
   }
+
+  ventasSalidas(){
+    this.elservicio.tocosalida.next(true);
+  }
 }

@@ -60,7 +60,7 @@ export class EldialogComponent implements OnInit {
       if(x != null && x.length>0){
         this.mostrarCaja=true;
         this.elproductocaja = x[0];
-        debugger
+        
         this.Tarjetaa = this.elproductocaja.Tarjeta
         this.transfrenciaa = this.elproductocaja.Transferencia
         this.valorrealcaja = this.elproductocaja.Efectivo   
@@ -74,8 +74,10 @@ export class EldialogComponent implements OnInit {
           this.servicios.getcajacierre1(lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T00:00:00"
           ,lafecha.getFullYear()+"-"+(lafecha.getMonth()+1)+"-"+lafecha.getDate()+"T23:59:59" ).subscribe(y =>{      
             this.lacaja2 = y;    
-            
-            this.salidas = (y[0].Salidas==null)?0: y[0].Salidas;
+            if(y.length>0){
+              this.salidas = (y[0].Salidas==null)?0: y[0].Salidas;
+            }
+           
             this.mostrarCaja=true;
             y.forEach((element2:any) => {
               this.valdescuentoo += Number(element2.ValDescuento)
@@ -221,7 +223,7 @@ export class EldialogComponent implements OnInit {
   
 
   ModificarProd(){
-    debugger
+    
     if(this.opcion==2){
       if(this.laimagen !=null){
         this.elproducto.Imagen =this.servicios.LosServicios.API+"/assets/img/"+this.laimagen.name;

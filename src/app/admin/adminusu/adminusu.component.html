@@ -67,7 +67,7 @@
     </div>
     <div style="margin-top: 20px;">
         <div>
-            <b>LISTA DE Usuarios:</b>
+            <b>Lista de usuarios:</b>            
         </div>        
     </div>
     <div>
@@ -77,7 +77,7 @@
                 <div style="display: flex;width: 100%;" *ngIf="elusuario.Clase=='' ">
                     <div style="width: 50%;">
                         <div >
-                            Nombre Usuario:{{item.NombreUsuario}}
+                            Nombre usuario:{{item.NombreUsuario}}
                         </div>
                         <div>
                            Email: {{item.Email}}
@@ -112,6 +112,9 @@
                     </div>    
                 </div>
                
+                <div (click)="borrarusuario(item.NombreUsuario)" style="margin: 5px;padding: 12px 0px 0px 10px;width: 45px;cursor: pointer;">
+                    <mat-icon>delete</mat-icon>
+                </div>
             </div>
         </div>
     </div>

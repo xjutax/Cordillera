@@ -1,0 +1,13 @@
+.botones{
+    border: 0px solid white;
+    background-color: #cf6b0d;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    height: 40px;
+    cursor: pointer;
+}
+
+.botones:hover{
+    background-color: #CB6B52;
+}
