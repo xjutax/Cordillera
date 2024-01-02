@@ -21,6 +21,13 @@
             </div>
           
         </div>
+        <div>
+            <div class="form-group">                  
+                <input type="file"
+                       id="file"
+                       (change)="handleFileInput($event)">
+            </div>
+        </div>
         <div style="display: flex;height: 30px;">
             <div style="width: 120px;">
                 Es Caja?
@@ -48,16 +55,19 @@
     <div>
         <div style="border: 1px solid black;" *ngFor="let item of listasalida">
             <div style="display: flex;">
-                <div style="width: 25%;">
+                <div style="width: 20%;">
                     {{item.Descripcion}}
                 </div>
-                <div style="width: 25%;">
+                <div style="width: 20%;">
                     {{item.Fecha}}
                 </div>
-                <div style="width: 25%;">
+                <div style="width: 20%;">
                     {{item.Valor | currency}}
                 </div>
-                <div style="width: 25%;">
+                <div style="width: 20%;">
+                    {{item.Imagen }}
+                </div>
+                <div style="width: 20%;">
                    <div *ngIf="item.EsCaja==1">
                     Es caja: Si
                    </div>

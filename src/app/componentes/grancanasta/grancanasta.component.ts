@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ServiciosService } from 'src/shared/services/servicios.service';
 import { EldialogComponent } from '../eldialog/eldialog.component';
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -202,7 +203,8 @@ export class GrancanastaComponent implements OnInit {
       Id:ellistaenvio[0].Pedido,
       ValorNeto:this.subtotal,
       ValServicio:this.servicio,
-      ValDescuento : this.eldescuval
+      ValDescuento : this.eldescuval,
+      detalle:ellistaenvio
     }
     if(this.estranfere){
       envio1.TipoPago=2;
@@ -241,7 +243,12 @@ export class GrancanastaComponent implements OnInit {
             }                
           });
           this.dialogRef.close();
-          this.servicios.cerrarventanas.next(true);          
+          this.servicios.cerrarventanas.next(true);      
+         
+
+          setTimeout(() => {
+            this.generarfactura(envio1);     
+        }, 1000);
       }else{
         const dialogRef = this.dialog.open(EldialogComponent, {
           maxWidth: '100vw',
@@ -253,6 +260,99 @@ export class GrancanastaComponent implements OnInit {
         });
       }
     })
+  }
+
+
+
+  generarfactura(entrada:any){
+    const doc = new jsPDF();
+    doc.setFontSize(9);
+
+    doc.text('LA CORDILLERA HAMBURGUESERIA ', 5, 5);
+    doc.setFontSize(7);
+    doc.text('Hamburguesas artesanales al carbon', 5, 10);
+    doc.text('Carrera 14 Calle 46 Norte. ', 5, 15);
+    doc.text('', 5, 20);
+    doc.text('NIT: 1094913384-4', 5, 25);
+    doc.text('Cel: 323 436 7484', 5, 30);
+
+    if(entrada.EsMesa){
+      doc.text('Pedido Mesa:'+entrada.Mesa, 5, 35);      
+    }else{
+      doc.text('Pedido:'+entrada.Direccion, 5, 35);
+    }
+    
+    doc.text('Empleado:'+ this.elusuario.NombreCompleto, 5, 40);
+    doc.text('Caja: 1', 5, 45);
+    doc.text('------------------------------------------------------------', 5, 50);
+    let nombre:string;
+    let _i:number=54;
+    entrada.detalle.forEach((element:any) => {
+      if(element.Cantidad ==0)
+        return;
+      nombre = element.Nombre;
+      
+      doc.text(nombre.replace("Hamburguesa","Hamb."), 5,_i );
+      doc.text("$"+ new Intl.NumberFormat('es-CO').format( (element.Precio*element.Cantidad)), 40,_i );
+      _i=_i+3;
+      doc.text(element.Cantidad +" x $"+new Intl.NumberFormat('es-CO').format( element.Precio), 5,_i );   
+      _i=_i+6;  
+      
+    });   
+    doc.text('------------------------------------------------------------', 5, _i);
+    _i=_i+3;  
+
+    if(entrada.EsMesa){
+      doc.text('Total:', 5, _i);    
+      doc.text('$'+new Intl.NumberFormat('es-CO').format( entrada.Valor), 40, _i);    
+      _i=_i+5;  
+      doc.text('SubTotal:', 5, _i);    
+      doc.text('$'+new Intl.NumberFormat('es-CO').format( entrada.ValorNeto), 40, _i);    
+      _i=_i+5;  
+      doc.text('Servicio:', 5, _i);    
+      doc.text('$'+new Intl.NumberFormat('es-CO').format( entrada.ValServicio), 40, _i);    
+      _i=_i+5;  
+      doc.text('Descuento:', 5, _i);    
+      doc.text('$'+new Intl.NumberFormat('es-CO').format( entrada.ValDescuento), 40, _i);  
+    }else{
+      doc.text('Total: $'+new Intl.NumberFormat('es-CO').format( entrada.Valor), 5, _i);
+    }
+    _i=_i+5;  
+    doc.text('------------------------------------------------------------', 5, _i);
+    _i=_i+7;  
+
+    doc.setFontSize(6);
+
+    doc.text("**Se informa a los consumidores que este", 5, _i);
+    _i=_i+4;  
+    doc.text("establecimiento de comercio sugiere una", 5, _i);
+    _i=_i+4;  
+    doc.text("propina del 10% del valor de la compra cómo", 5, _i);
+    _i=_i+4;  
+    doc.text("fue reglamentado por la Ley 1935 del 03 de", 5, _i);
+    _i=_i+4;  
+    doc.text("agosto del 2018. el cuál podra ser ACEPTADO", 5, _i);
+    _i=_i+4;  
+    doc.text(",RECHAZADO o MODIFICADO por el consumidor", 5, _i);
+    _i=_i+4;  
+    doc.text("de acuerdo a la valoración del servicio", 5, _i);
+    _i=_i+4;  
+    doc.text("prestado en mesa. en caso algún inconveniente", 5, _i);
+    _i=_i+4;  
+    doc.text("con el cobro de la propina puede comunicarse", 5, _i);
+    _i=_i+4;  
+    doc.text("con la Super Intendencia de Industria y Comercio", 5, _i);
+    _i=_i+4;  
+    doc.text("al teléfono: 018000 910165**", 5, _i);
+   
+
+    _i=_i+10; 
+    doc.setFontSize(8);
+    doc.text('GRACIAS POR SU VISITA', 5, _i);
+    _i=_i+8; 
+    doc.text(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'), 5, _i);
+    
+    window.open(doc.output('bloburl'))
   }
 
   cargardatos(){

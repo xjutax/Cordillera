@@ -16,12 +16,7 @@ import html2canvas from 'html2canvas'; // Todavía no lo usamos
 })
 export class AdminPedidosComponent implements OnInit {
 
-  public downloadPDF(): void {
-    const doc = new jsPDF();
-
-    doc.text('Hello world!', 10, 10);
-    doc.save('hello-world.pdf');
-  }
+ 
   
   public listapedidos : Array<any>= new Array<any>();
   public elusu:any;
@@ -96,6 +91,30 @@ export class AdminPedidosComponent implements OnInit {
   comandar(entrada:any){
     entrada.Estado='Comandado'
     this.servicios.update_pedido(entrada).subscribe( x =>{
+
+      const doc = new jsPDF();
+      doc.setFontSize(9);
+      if(entrada.EsMesa){
+        doc.text('MESA '+entrada.Mesa, 5, 10);
+      }else{
+        doc.text(entrada.Direccion, 5, 10);
+      }
+      let nombre:string;
+      let _i:number=15;
+      entrada.detalle.forEach((element:any) => {
+        if(element.Cantidad > 0){
+          nombre = element.Nombre;
+        _i=_i+8;
+        doc.text(nombre.replace("Hamburguesa","Hamb.")+" x  "+element.Cantidad, 5,_i );
+        }
+        
+      });
+
+      doc.text(entrada.Observacion, 5,_i+8 );
+      
+      window.open(doc.output('bloburl'))
+      //doc.save('comanda.pdf');
+
       this.cargarPedidos();
     })
   }

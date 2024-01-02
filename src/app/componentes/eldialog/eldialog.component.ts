@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit,Inject } from '@angular/core';
 import { MatDialog,MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import jsPDF from 'jspdf';
 import { ServiciosService } from 'src/shared/services/servicios.service';
 
 @Component({
@@ -206,10 +207,39 @@ export class EldialogComponent implements OnInit {
 
   imprimir(){    
       this.elproducto.Impresion=true;
-     
-      this.servicios.save_caja(this.elproducto).subscribe( x =>{        
+     this.generarCaja();
+     /* this.servicios.save_caja(this.elproducto).subscribe( x =>{        
         this.dialogRef.close();
-      })
+      })*/
+  }
+
+  generarCaja(){
+    const doc = new jsPDF();
+    doc.setFontSize(9);
+
+    doc.text('LA CORDILLERA HAMBURGUESERIA ', 5, 5);
+    doc.setFontSize(7);
+    doc.text('Hamburguesas artesanales al carbon', 5, 10);
+    doc.text('Carrera 14 Calle 46 Norte. ', 5, 15);
+    doc.text('', 5, 20);
+    doc.text('NIT: 1094913384-4', 5, 25);
+    doc.text('Cel: 323 436 7484', 5, 30);
+
+    
+    
+    doc.text('CERRAR CAJA', 5, 35);      
+    
+    doc.text('------------------------------------------------------------', 5, 40);
+    doc.text('Apertura: $'+ new Intl.NumberFormat('es-CO').format( this.elproductocaja.ValorInicial), 5, 45);
+    doc.text('Efectivo en caja: $'+ new Intl.NumberFormat('es-CO').format(this.elproductocaja.EfectivoReal), 5, 50);
+    doc.text('Efectivo Calculado: $'+ new Intl.NumberFormat('es-CO').format(this.valorrealcaja), 5, 55);
+    doc.text('Salidas: $'+ new Intl.NumberFormat('es-CO').format(this.salidas), 5, 60);
+    doc.text('Descuadre: $'+ new Intl.NumberFormat('es-CO').format(this.descuadree), 5, 65);
+    doc.text('------------------------------------------------------------', 5, 70);
+   
+    doc.text(formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'), 5, 75);
+    
+    window.open(doc.output('bloburl'))
   }
   
   

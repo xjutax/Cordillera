@@ -19,6 +19,7 @@ export class SalidasComponent implements OnInit {
   public Valor:number=0;
   public escajaa:boolean=true;
   public escaja:number=0;
+  public laimagen:any;
   public listasalida:Array<any>=new Array<any>();
   constructor(private servicios:ServiciosService,public dialog: MatDialog) { }
 
@@ -31,6 +32,12 @@ export class SalidasComponent implements OnInit {
     this.servicios.tocosalida.subscribe(x =>{
       this.llenargrilla();
     })
+  }
+
+  handleFileInput(entrada:any){
+    //this.laimagen = entrada.target.files[0];    
+    this.laimagen = entrada.target.files[0];    
+      
   }
 
   escajaaF(){
@@ -56,6 +63,7 @@ export class SalidasComponent implements OnInit {
     
     this.servicios.getSalidas(this.lafecha.getFullYear()+"-"+(this.lafecha.getMonth()+1)+"-"+this.lafecha.getDate()+"T00:00:00"
     ,this.lafecha2.getFullYear()+"-"+(this.lafecha2.getMonth()+1)+"-"+this.lafecha2.getDate()+"T00:00:00" ).subscribe( y=>{
+      
       this.listasalida = y;
     })
   }
@@ -71,21 +79,51 @@ export class SalidasComponent implements OnInit {
   }
 
   crear(){
-    let envio ={
-      Descripcion:this.Descripcion,Valor:this.Valor,
-      Fecha:formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'),EsCaja:this.escaja
-    }
-    this.servicios.save_salidas(envio).subscribe(x =>{
-      const dialogRef = this.dialog.open(EldialogComponent, {
-        maxWidth: '100vw',
-        minWidth: '40%',
-        panelClass: 'my-panel',
-        data: {  
-          tipo:0,mensaje:"Salida creada con exito."          
-        }               
-      });
+    let envio =null;
+
+    if(this.laimagen != null){
       
-      this.llenargrilla();
+      envio ={
+        Descripcion:this.Descripcion,Valor:this.Valor,
+        Fecha:formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'),EsCaja:this.escaja,Imagen: this.laimagen.name
+      }
+    }else{
+      envio ={
+        Descripcion:this.Descripcion,Valor:this.Valor,
+        Fecha:formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss','en-US','-0500'),EsCaja:this.escaja
+      }
+    }
+    
+    this.servicios.save_salidas(envio).subscribe(x =>{
+      if(x.IdPedido != null && x.IdPedido > 0){
+        
+        if(this.laimagen != null){
+          this.servicios.save_imagen2(this.laimagen).subscribe(x=>{
+          }) 
+        }
+        
+  
+        const dialogRef = this.dialog.open(EldialogComponent, {
+          maxWidth: '100vw',
+          minWidth: '40%',
+          panelClass: 'my-panel',
+          data: {  
+            tipo:0,mensaje:"Salida creada con exito."          
+          }               
+        });
+        
+        this.llenargrilla();
+      }else{
+        const dialogRef = this.dialog.open(EldialogComponent, {
+          maxWidth: '100vw',
+          minWidth: '40%',
+          panelClass: 'my-panel',
+          data: {  
+            tipo:0,mensaje:"Error comuniquese con el administrador."          
+          }               
+        });
+      }
+     
     })
   }
 

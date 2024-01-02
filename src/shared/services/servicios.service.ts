@@ -61,6 +61,19 @@ export class ServiciosService {
       .post<any>(this.LosServicios.API+"/save_imagen.php", formData, { headers })
   }
 
+  save_imagen2(entrada:File): Observable<any>{       
+    const endpoint ='url'
+    const formData = new FormData();
+          formData.append('image', entrada, entrada.name);
+    
+    const headers = new HttpHeaders();
+          headers.append('Content-Type', 'multipart/form-data');
+          headers.append('Accept', 'application/json');
+  
+    return this.http
+      .post<any>(this.LosServicios.API+"/save_imagen2.php", formData, { headers })
+  }
+
   GetTiposAll(): Observable<any>{    
     return this.http.get<any>(this.LosServicios.API+"/listarTipoAll.php", this.httpOptions);
   }

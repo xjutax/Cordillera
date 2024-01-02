@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
         this.mensaje ="Ingreso incorrecto."
         return;
       }
+      
       if(x.Activo == "1"){
         this.losservicios.savesession(x);
         this.formu=false;
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
         this.mensaje ="Seleccione los parametros de turno."      
       }else{     
         let usuario = this.losservicios.getsession();
-        
+       
         let usunu ={
           Activo: usuario.Activo,
           Id: usuario.Id,
